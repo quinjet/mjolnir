@@ -1,0 +1,22 @@
+var signupDbAccessor = require("./signupDbAccess.js"),
+    util = require('util');
+
+function getUserDetails() {
+    var COLLECTION_NAME = 'users',
+    getUserModel = signupDbAccessor.prototype.connection.model(COLLECTION_NAME);
+    this.getUser = function (selectionObj, callback) {
+        getUserModel.findOne(selectionObj, function (err, doc) {
+            if(doc) {
+                util.log("[INFO] User data fetched : "+doc);
+                callback(null,doc);
+            } else {
+                util.log("[INFO] User Doc Fetch Error in getUserDetails :"+err);
+                callback({'status':'404','message':'USER DETAILS NOT FOUND'},
+                         null);
+            }
+        });
+    }
+}
+
+util.inherits(getUserDetails, signupDbAccessor);
+module.exports = getUserDetails;

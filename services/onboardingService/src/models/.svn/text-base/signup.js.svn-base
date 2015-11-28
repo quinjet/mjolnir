@@ -1,0 +1,131 @@
+var signupDbAccessor = require("./signupDbAccess.js"),
+    util = require('util');
+
+function SignUp() {
+
+    var COLLECTION_NAME = "users",
+        signupSchema = {
+        "name": {
+            type: String,
+            required: true,
+            trim: true
+        },
+        "password": {
+            type: String,
+            required: false,
+            trim: true
+        },
+        "email": {
+            type: String,
+            required: true,
+            trim: true
+        },
+        "mobile": {
+            type: Number,
+            required: true,
+            trim: true
+        },
+        "website": {
+            type: String,
+            required: false,
+            trim: true
+        },  
+        "domain": {
+            type: String,
+            required: true,
+            trim: true
+        },
+        "salt": {
+            type: String,
+            required: true,
+            trim: true
+        },
+        "redirectUrl": {
+            type: String,
+            required: true,
+            trim: true
+        },
+        "validateEmail": {
+            type: Boolean,
+            required: true,
+            trim: true
+        },
+        "sentMail": {
+            type: Boolean,
+            required: true,
+            trim: true
+        },
+        "key": {
+            type: String,
+            required: true,
+            trim: true
+        }
+    };
+
+    var SignupModel = signupDbAccessor.prototype.connection.model(
+                          COLLECTION_NAME, signupSchema
+                      );
+
+    this.saveToDb = function (request, callBack) {
+        var doc = {
+            "name": request["name"],
+            "password": request["password"],
+            "email": request["email"],
+            "mobile": request["mobile"],
+            "website": request["website"],
+            "domain": request["domain"],
+            "salt": request["salt"],
+            "redirectUrl": request["redirectUrl"],
+            "validateEmail": false,
+            "sentMail": false,
+            "key": request["key"]
+        };
+
+        var toSave = new SignupModel(doc);
+        toSave.save(function (err, savedResponse, numberAffected) {
+            var error = null;
+            if (err) {
+                util.log("[ERROR]  " + err)
+                if (err["name"] == "ValidationError") {
+                    error = err.message;
+                } else {
+                    error = "Internal error while saving.";
+                }
+                toSave.set("status", "FAILED", {
+                    strict: false
+                });
+                toSave.set("error", error, {
+                    strict: false
+                });
+            } else {
+                savedResponse.set("status", "SUCCESS", {
+                    strict: false
+                });
+            }
+            callBack(null, savedResponse == undefined ? toSave : savedResponse);
+        });
+    }
+    this.updateToDb = function(selectionObj, updateObj, callback) {
+        SignupModel.find(selectionObj, function (err, doc) {
+            if (err) {
+                util.log( "[ERROR]" + err.message);
+                callback(err.message, null);
+            } else {
+                SignupModel.update(selectionObj, {
+                    $set: updateObj
+                }, function (err, doc) {
+                    if (err) {
+                        util.log( "[ERROR]" + err.message);
+                        callback(err.message, null);
+                    }else {
+                        util.log("[INFO] Document Updated");
+                        callback(null,doc);
+                    }
+                });
+            }
+        });
+    }
+    this.SignupModel = SignupModel;
+}
+util.inherits(SignUp, signupDbAccessor);
+module.exports = SignUp;

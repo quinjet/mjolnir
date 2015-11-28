@@ -1,0 +1,166 @@
+var signupDbAccessor = require("./signupDbAccess.js"),
+    util = require('util');
+
+function Configuration() {
+    var COLLECTION_NAME = "configurations";
+
+    var selectedConfigurationSchema =
+        new signupDbAccessor.prototype.connection.Schema(
+            {
+                "id": {
+                    type: Number,
+                    required: true,
+                    trim: true
+                },
+                "text": {
+                    type: String,
+                    required: true,
+                    trim: true
+                },
+                "_id": false
+            }
+        );
+
+    var targetingAttributesSchema =
+        new signupDbAccessor.prototype.connection.Schema({
+            "id": {
+                type: Number,
+                required: true,
+                trim: true
+            },
+            "name": {
+                type: String,
+                required: true,
+                trim: true
+            },
+            "answers": [{
+                type: String,
+                required: true,
+                trim: true
+            }],
+            "_id": false
+        });
+
+    var configurationSchema = {
+        "email": {
+            type: String,
+            required: true,
+            trim: true
+        },
+        "company": {
+            type: String,
+            required: false,
+            trim: true
+        },
+        "phone": {
+            type: String,
+            required: true,
+            trim: true
+        },
+        "leadId": {
+            type: Number,
+            required: true,
+            trim: true
+        },
+        "leadStep": {
+            type: String,
+            required: true,
+            trim: true
+        },
+        "planId": {
+            type: String,
+            required: false,
+            trim: true
+        },
+        "vertical": [selectedConfigurationSchema],
+        "subVertical": [selectedConfigurationSchema],
+        "businessSegments": [selectedConfigurationSchema],
+        "targetingAttributes": [targetingAttributesSchema],
+        "domainName": {
+            type: String,
+            required: false,
+            trim: true
+        },
+        "websiteTemplate": {
+            type: String,
+            required: false,
+            trim: true
+        }
+    };
+
+    var ConfigurationModel = signupDbAccessor.prototype.connection.model(
+                                 COLLECTION_NAME, configurationSchema
+                             );
+
+    this.saveToDb = function (request, callBack) {
+        var keys = Object.keys(request);
+        var doc = {};
+
+        for(var i = 0; i < keys.length; i++) {
+            doc[keys[i]] = request[keys[i]];
+        }
+
+        var toSave = new ConfigurationModel(doc);
+        toSave.save(function (err, savedResponse, numberAffected) {
+            var error = null;
+            if (err) {
+                util.log("[ERROR] err: " + err)
+                if (err["name"] == "ValidationError") {
+                    error = err.message;
+                } else {
+                    error = "Internal error while saving.";
+                }
+                toSave.set("status", "FAILED", {
+                    strict: false
+                });
+                toSave.set("error", error, {
+                    strict: false
+                });
+                callBack("[ERROR] Error while saving in DB.", null);
+            } else {
+                savedResponse.set("status", "SUCCESS", {
+                    strict: false
+                });
+            }
+            callBack(null, savedResponse == undefined ? toSave : savedResponse);
+        });
+    }
+
+    this.updateToDb = function(selectionObj, updateObj, callback) {
+        ConfigurationModel.find(selectionObj, function (err, doc) {
+            if (err) {
+                util.log( "[ERROR]" + err.message);
+                callback(err.message, null);
+            } else {
+                ConfigurationModel.update(selectionObj, {
+                    $set: updateObj
+                }, function (err, doc) {
+                    if (err) {
+                        util.log( "[ERROR]" + err.message);
+                        callback(err.message, null);
+                    }else {
+                        util.log("[INFO] Document Updated");
+                        callback(null,doc);
+                    }
+                });
+            }
+        });
+    }
+
+    this.getFromDb = function(selectionObj, callback) {
+        util.log("[INFO] getFromDb");
+        ConfigurationModel.find(selectionObj, function (err, doc) {
+            if (err) {
+                util.log("[ERROR] getFromDb: " + err.message);
+                callback(err.message, null);
+            }
+            else {
+                util.log("[INFO] getFromDb successful");
+                callback(null, doc);
+            }
+        });
+    }
+    this.ConfigurationModel = ConfigurationModel;
+}
+util.inherits(Configuration, signupDbAccessor);
+module.exports = Configuration;

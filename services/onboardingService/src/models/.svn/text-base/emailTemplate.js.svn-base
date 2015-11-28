@@ -1,0 +1,56 @@
+var signupDbAccessor = require("./signupDbAccess.js");
+var util = require('util');
+
+function EmailTemplate() {
+    var COLLECTION_NAME = "email_templates",
+        emailTemplateSchema = {
+        "status": {
+            type: String,
+            required: true,
+            trim: true
+        },
+        "domain": {
+            type: String,
+            required: true,
+            trim: true
+        },
+        "template": {
+            type: String,
+            required: true,
+            trim: true
+        },
+        "reciever": {
+            type: String,
+            required: false,
+            trim: true
+        },
+        "subject" : {
+            type : String,
+            required : false,
+            trim: true
+        }
+    };
+    var EmailTemplateModel = signupDbAccessor.prototype.connection.model(
+        COLLECTION_NAME, emailTemplateSchema
+    );
+
+    this.getEmailTemplate = function (req, callback) {
+        EmailTemplateModel.findOne({'status':'ACTIVE', 'domain' : req["domain"]}, function (err, doc) {
+            if (err === null) {
+                var template = null;
+                if (Array.isArray(doc)) {
+                    template = doc[0];
+                } else {
+                    template = doc;
+                }
+                
+                callback(null, template);
+            } else {
+                util.log("[ERROR] " + err.message)
+                callback(err.message, null);
+            }
+        });
+    }
+}
+util.inherits(EmailTemplate, signupDbAccessor);
+module.exports = EmailTemplate;

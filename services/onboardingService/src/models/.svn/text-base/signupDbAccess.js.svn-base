@@ -1,0 +1,8 @@
+function signupDbAccess() {
+    
+}
+signupDbAccess.prototype.setConnection = function(connection) {
+    signupDbAccess.prototype.connection = connection;
+    signupDbAccess.prototype.ObjectId = require('mongoose').Types.ObjectId;
+}
+module.exports = signupDbAccess;

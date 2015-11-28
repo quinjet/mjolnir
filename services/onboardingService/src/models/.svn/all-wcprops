@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/157597/sokrati/agency_platform/shared/signupDbAccess/mainline/src/models
+END
+getUserDetails.js
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/142454/sokrati/agency_platform/shared/signupDbAccess/mainline/src/models/getUserDetails.js
+END
+signup.js
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/143888/sokrati/agency_platform/shared/signupDbAccess/mainline/src/models/signup.js
+END
+configuration.js
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/157121/sokrati/agency_platform/shared/signupDbAccess/mainline/src/models/configuration.js
+END
+planActions.js
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/157597/sokrati/agency_platform/shared/signupDbAccess/mainline/src/models/planActions.js
+END
+signupDbAccess.js
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/142088/sokrati/agency_platform/shared/signupDbAccess/mainline/src/models/signupDbAccess.js
+END
+emailTemplate.js
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/147889/sokrati/agency_platform/shared/signupDbAccess/mainline/src/models/emailTemplate.js
+END

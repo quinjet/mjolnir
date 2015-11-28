@@ -1,0 +1,82 @@
+var signupDbAccessor = require("./signupDbAccess.js");
+var util = require('util');
+
+function PlanActions() {
+    var COLLECTION_NAME = "plan_actions",
+        planActionsSchema = {
+        "application": {
+            type: String,
+            required: true,
+            trim: true
+        },
+        "action": {
+            type: String,
+            required: true,
+            trim: true
+        },
+        "blockCallTracking": {
+            type: Boolean,
+            required: true,
+            trim: true
+        },
+        "preRenewalDiscount": {
+            type: Number,
+            required: true,
+            trim: true
+        },
+        "postWalletCredit": {
+            type: Number,
+            required: true,
+            trim: true
+        },
+        "watermark" : {
+            type : Boolean,
+            required : true,
+            trim: true
+        },
+        "events" : {
+            type : Array,
+            required : true,
+            trim: true
+        },
+        "popupMessage" : {
+            type : String,
+            required : true,
+            trim: true
+        },
+        "subtleMessage" : {
+            type : String,
+            required : true,
+            trim: true
+        },
+        "eventMetadataKeys" : {
+            type : Array,
+            required : true,
+            trim: true
+        },
+        "days" : {
+            type : Number,
+            required : true,
+            trim: true
+        }
+    };
+
+    var PlanActionsModel = signupDbAccessor.prototype.connection.model(
+        COLLECTION_NAME, planActionsSchema
+    );
+
+    this.getPlanActions = function (selectionObj, projection, callback) {
+        util.log("[INFO] getPlanActions");
+        PlanActionsModel.find(selectionObj, projection, function (err, doc) {
+            if (err === null) {
+                util.log("[INFO] getPlansActions successful");
+                callback(null, doc);
+            } else {
+                util.log("[ERROR] " + err.message)
+                callback(err.message, null);
+            }
+        });
+    }
+}
+util.inherits(PlanActions, signupDbAccessor);
+module.exports = PlanActions;
