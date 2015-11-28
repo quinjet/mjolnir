@@ -70,7 +70,7 @@ exports.start = function(port) {
         );
         app.post(
             '/transactionService/payment',
-            paymentServlet.post(logger, configuration, transaction, paypalExpress)
+            paymentServlet.post(logger, configuration, transaction, paypalExpress, creditCardCheckout)
         );
         app.post(
             '/transactionService/confirmPayment',
