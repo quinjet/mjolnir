@@ -58,8 +58,40 @@ var subscription = function(logger, configuration) {
                                 selectionobject,
                                 paymentOptions,
                                 function(err, updateResponse) {
+                                    logger.info("inside update callback");
                                     logger.log("err: " + err);
                                     logger.log("updateResponse: " + updateResponse);
+                                    if (err == null) {
+                                        configuration.getFromDb(
+                                            selectionobject,
+                                            function(err, updatedDoc) {
+                                                if (!err) {
+                                                    res.send(
+                                                        {
+                                                            "status": "success",
+                                                            "merchant": updatedDoc[0]
+                                                        }
+                                                    );
+                                                }
+                                                else {
+                                                    res.send(
+                                                        {
+                                                            "status": "failed",
+                                                            "merchant": updatedDoc
+                                                        },
+                                                        500
+                                                    );
+                                                }
+                                        })
+                                    }
+                                    else {
+                                        res.send(
+                                            {
+                                                "status": "Failed",
+                                                "merchant": err.message
+                                            }
+                                        );
+                                    }
                                 })
                         }
                         else {
