@@ -9,7 +9,7 @@ var PaypalExpressCheckout = require('paypal-express-checkout'),
 */
 function PaypalExpress(logger) {
 
-    this.payExpress = function(req, token, callback) {
+    this.payWithCredit = function(req, token, callback) {
         console.log(req);
         console.log(token);
 

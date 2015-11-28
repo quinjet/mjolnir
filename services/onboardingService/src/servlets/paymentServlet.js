@@ -1,6 +1,10 @@
 var hat = require("hat");
 var fs = require('fs');
+<<<<<<< HEAD
+var paymentServlet = function(logger, configuration, paypalExpress, creditCardCheckout) {
+=======
 var paymentServlet = function(logger, configuration, transaction, paypalExpress) {
+>>>>>>> 00e6773bec79f8159c03f9eee3677a9ae21b2ee0
     var request, decodedBody;
     return function (req, res, next) {
         try {
@@ -98,6 +102,34 @@ var paymentServlet = function(logger, configuration, transaction, paypalExpress)
                                                         });   
                                                 }
                                         });
+                                    }
+                                    else if(paymentDetail["name"] == "paypal_credit")
+                                    {
+                                        var context = JSON.parse(paymentDetail["context"]);
+                                        creditCardCheckout.payWithCredit(
+                                            body, 
+                                            context, 
+                                            function(err, resp){
+                                                if(err)
+                                                {
+                                                     res.send(
+                                                        {
+                                                            "status": "ERROR",
+                                                            "error": err
+                                                        }
+                                                    );   
+                                                }
+                                                else
+                                                {
+                                                    res.send(
+                                                        {
+                                                            "status": "SUCCESS",
+                                                            "token": resp
+                                                        }
+                                                    );   
+                                                }
+                                            
+                                        });
                                     } 
                                     else {
                                          res.send(
@@ -177,8 +209,19 @@ var paymentServlet = function(logger, configuration, transaction, paypalExpress)
 
     function validateRequest(request)
     {
+        console.log(request["paymentType"]);
+        console.log(request["creditCard"]);
         var isValid = false;
         if(request["paymentType"] == "ewallet")
+        {   
+           if (request["paymentMethod"] && request["appKey"] &&
+                request["transactionId"] && request["amount"])
+            {
+                isValid = true;
+            }
+ 
+        }
+        else if(request["paymentType"] == "card" && request["creditCard"])
         {
             if (request["paymentMethod"] && request["appKey"] &&
                 request["transactionId"] && request["amount"])

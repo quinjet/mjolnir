@@ -16,6 +16,7 @@ var mongoUserConfig = "/etc/sokrati/db/asgard.cfg";
 var subscriptionServlet = require('../servlets/subscriptionServlet');
 var paywithServlet = require('../servlets/paywith');
 var paymentServlet = require('../servlets/paymentServlet');
+var configuration, paypalExpress, creditCardCheckout;
 var confirmPaymentServlet = require('../servlets/confirmPaymentServlet');
 var transactionServlet = require('../servlets/transactionServlet');
 var configuration, paypalExpress, transaction;
@@ -49,6 +50,8 @@ exports.start = function(port) {
             configuration = new Configuration();
             var PaypalExpress = require("../modules/paypalExpressCheckout");
             paypalExpress = new PaypalExpress();
+            var CreditCardCheckout = require("../modules/CreditCardCheckout");
+            creditCardCheckout = new CreditCardCheckout();
             var Transaction = require("../models/transactions");
             transaction = new Transaction();
         init();
