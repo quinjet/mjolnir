@@ -1,6 +1,6 @@
 var hat = require("hat");
 var fs = require('fs');
-var paymentServlet = function(logger, configuration, transaction,  paypalExpress, creditCardCheckout) {
+var paymentServlet = function(logger, configuration, transaction, paypalExpress, creditCardCheckout) {
     var request, decodedBody;
     return function (req, res, next) {
         try {
@@ -30,7 +30,7 @@ var paymentServlet = function(logger, configuration, transaction,  paypalExpress
                     {
                         "status": "FAILED",
                         "merchant": "Invalid request"
-                    }
+                    }, 500
                 );
             }
             else
@@ -66,12 +66,12 @@ var paymentServlet = function(logger, configuration, transaction,  paypalExpress
                                                         {
                                                             "status": "FAILED",
                                                             "error": err
-                                                        }
+                                                        }, 500
                                                     );   
                                                 }
                                                 else
                                                 {
-                                                    body["paymentStatus"] = "INPROGRESS";
+                                                    body["paymentStatus"] = "InProgress";
                                                     body["paymentToken"] = resp;
 
                                                     transaction.saveToDb(
@@ -83,7 +83,7 @@ var paymentServlet = function(logger, configuration, transaction,  paypalExpress
                                                                     {
                                                                         "status": "FAILED",
                                                                         "error": err
-                                                                    }
+                                                                    }, 500
                                                                 );
                                                             }
                                                             else
@@ -97,7 +97,6 @@ var paymentServlet = function(logger, configuration, transaction,  paypalExpress
                                                             }
                                                         });   
                                                 }
-                                            
                                         });
                                     }
                                     else if(paymentDetail["name"] == "paypal_credit")
@@ -111,19 +110,48 @@ var paymentServlet = function(logger, configuration, transaction,  paypalExpress
                                                 {
                                                      res.send(
                                                         {
-                                                            "status": "ERROR",
+                                                            "status": "FAILED",
                                                             "error": err
                                                         }
                                                     );   
                                                 }
                                                 else
                                                 {
-                                                    res.send(
-                                                        {
-                                                            "status": "SUCCESS",
-                                                            "token": resp
-                                                        }
-                                                    );   
+                                                    var respStr = JSON.stringify(resp);
+                                                    if(resp["id"] && resp["state"] &&
+                                                       resp["state"] == "approved")
+                                                    {
+                                                        body["paymentStatus"] = "Completed";
+                                                        body["paymentToken"] = resp["id"];
+                                                    }
+                                                    else
+                                                    {
+                                                        body["paymentStatus"] = "Failed";
+                                                    }
+                                                    body["transactionDetails"] = respStr;
+
+                                                    transaction.saveToDb(
+                                                        body, 
+                                                        function(err, txnResponse){
+                                                            if (err)
+                                                            {
+                                                                res.send(
+                                                                    {
+                                                                        "status": "FAILED",
+                                                                        "error": err
+                                                                    }, 500
+                                                                );
+                                                            }
+                                                            else
+                                                            {
+                                                                res.send(
+                                                                    {
+                                                                        "status": "SUCCESS",
+                                                                        "token": resp
+                                                                    }
+                                                                );
+                                                            }
+                                                        }); 
                                                 }
                                             
                                         });
@@ -136,7 +164,6 @@ var paymentServlet = function(logger, configuration, transaction,  paypalExpress
                                             }, 500
                                         );
                                     }
-
                                 } 
                                 else 
                                 {
@@ -144,10 +171,9 @@ var paymentServlet = function(logger, configuration, transaction,  paypalExpress
                                         {
                                             "status": "FAILED",
                                             "error": err
-                                        }
+                                        }, 500
                                     );
                                 }
-                                
                             } 
                             else
                             {
@@ -155,9 +181,8 @@ var paymentServlet = function(logger, configuration, transaction,  paypalExpress
                                     {
                                         "status": "FAILED",
                                         "error": err
-                                    }
+                                    }, 500
                                 );
-
                             }
                             
                         }
@@ -167,7 +192,7 @@ var paymentServlet = function(logger, configuration, transaction,  paypalExpress
                                 {
                                     "status": "FAILED",
                                     "error": err
-                                }
+                                }, 500
                             );
                         }
                     }
@@ -182,7 +207,7 @@ var paymentServlet = function(logger, configuration, transaction,  paypalExpress
                 {
                     "status": "FAILED",
                     "error": err.message
-                }
+                }, 500
             );
         }
     }
@@ -212,7 +237,8 @@ var paymentServlet = function(logger, configuration, transaction,  paypalExpress
         console.log(request["paymentType"]);
         console.log(request["creditCard"]);
         var isValid = false;
-        if(request["paymentType"] == "ewallet")
+        if (request["paymentType"] == "ewallet" || 
+            (request["paymentType"] == "card" && request["creditCard"]))
         {   
            if (request["paymentMethod"] && request["appKey"] &&
                 request["transactionId"] && request["amount"])
@@ -220,18 +246,6 @@ var paymentServlet = function(logger, configuration, transaction,  paypalExpress
                 isValid = true;
             }
  
-        }
-        else if(request["paymentType"] == "card" && request["creditCard"])
-        {
-            if (request["paymentMethod"] && request["appKey"] &&
-                request["transactionId"] && request["amount"])
-            {
-                isValid = true;
-            }
-        }
-        else
-        {
-            isValid = false;
         }
         return isValid;
     }
@@ -242,7 +256,7 @@ var paymentServlet = function(logger, configuration, transaction,  paypalExpress
         logger.info("In getContextForPayment: ");
         logger.info("In request : " + JSON.stringify(request));
         logger.info("In request : " + JSON.stringify(paymentOptions));
-        for (var i =0 ; i<paymentOptions.length;i++)
+        for (var i =0 ; i<paymentOptions.length; i++)
         {
             if(request["paymentMethod"] == paymentOptions[i]["name"])
             {

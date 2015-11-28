@@ -10,8 +10,8 @@ var PaypalCreditRestApi = require('paypal-rest-sdk'),
 function PaypalCredit(logger) {
 
     this.payWithCredit = function(req, token, callback) {
-        console.log(req);
-        console.log(token);
+        console.log("Request: " + req);
+        console.log("Token: " + token);
         var paypal = require('paypal-rest-sdk');
         paypal.configure({
             "host" : "api.sandbox.paypal.com",
@@ -19,7 +19,7 @@ function PaypalCredit(logger) {
             "client_id" : token["clientId"],
             "client_secret" : token["clientSecret"]
         });
-        console.log(paypal);
+        console.log("Paypal: " + paypal);
         // if(!req["creditCard"]) {
         //     callback("Invalid Credit Card Details", null);
         // }
