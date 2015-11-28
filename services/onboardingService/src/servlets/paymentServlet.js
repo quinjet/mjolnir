@@ -1,10 +1,6 @@
 var hat = require("hat");
 var fs = require('fs');
-<<<<<<< HEAD
-var paymentServlet = function(logger, configuration, paypalExpress, creditCardCheckout) {
-=======
-var paymentServlet = function(logger, configuration, transaction, paypalExpress) {
->>>>>>> 00e6773bec79f8159c03f9eee3677a9ae21b2ee0
+var paymentServlet = function(logger, configuration, transaction,  paypalExpress, creditCardCheckout) {
     var request, decodedBody;
     return function (req, res, next) {
         try {
