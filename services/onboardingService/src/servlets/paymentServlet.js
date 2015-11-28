@@ -1,6 +1,10 @@
 var hat = require("hat");
 var fs = require('fs');
+<<<<<<< HEAD
 var paymentServlet = function(logger, configuration, paypalExpress, creditCardCheckout) {
+=======
+var paymentServlet = function(logger, configuration, transaction, paypalExpress) {
+>>>>>>> 00e6773bec79f8159c03f9eee3677a9ae21b2ee0
     var request, decodedBody;
     return function (req, res, next) {
         try {
@@ -18,6 +22,8 @@ var paymentServlet = function(logger, configuration, paypalExpress, creditCardCh
             if (req.headers.origin) {
                body["origin"] = req.headers.origin;
             }
+
+            // Change
             body["origin"] = "http://www.sokrati.com/";
 
             logger.info("checking request valid or not: " + JSON.stringify(selectionobject));
@@ -26,8 +32,8 @@ var paymentServlet = function(logger, configuration, paypalExpress, creditCardCh
             {
                 res.send(
                     {
-                        "status": "ERROR",
-                        "error": "Invalid Request"
+                        "status": "FAILED",
+                        "merchant": "Invalid request"
                     }
                 );
             }
@@ -52,6 +58,7 @@ var paymentServlet = function(logger, configuration, paypalExpress, creditCardCh
                                     logger.info("paymentDetail for merchant: " + JSON.stringify(paymentDetail));
                                     if(paymentDetail["name"] == "paypal")
                                     {
+                                        body["currency"] = dbResponse[0].currency;
                                         var context = JSON.parse(paymentDetail["context"]);
                                         paypalExpress.payExpress(
                                             body, 
@@ -61,19 +68,38 @@ var paymentServlet = function(logger, configuration, paypalExpress, creditCardCh
                                                 {
                                                      res.send(
                                                         {
-                                                            "status": "ERROR",
+                                                            "status": "FAILED",
                                                             "error": err
                                                         }
                                                     );   
                                                 }
                                                 else
                                                 {
-                                                    res.send(
-                                                        {
-                                                            "status": "SUCCESS",
-                                                            "token": resp
-                                                        }
-                                                    );   
+                                                    body["paymentStatus"] = "INPROGRESS";
+                                                    body["paymentToken"] = resp;
+
+                                                    transaction.saveToDb(
+                                                        body, 
+                                                        function(err, txnResponse){
+                                                            if (err)
+                                                            {
+                                                                res.send(
+                                                                    {
+                                                                        "status": "FAILED",
+                                                                        "error": err
+                                                                    }
+                                                                );
+                                                            }
+                                                            else
+                                                            {
+                                                                res.send(
+                                                                    {
+                                                                        "status": "SUCCESS",
+                                                                        "token": resp
+                                                                    }
+                                                                );
+                                                            }
+                                                        });   
                                                 }
                                             
                                         });
@@ -109,7 +135,7 @@ var paymentServlet = function(logger, configuration, paypalExpress, creditCardCh
                                     else {
                                          res.send(
                                             {
-                                                "status": "ERROR",
+                                                "status": "FAILED",
                                                 "error": "Invalid Payment option"
                                             }, 500
                                         );
@@ -192,12 +218,20 @@ var paymentServlet = function(logger, configuration, paypalExpress, creditCardCh
         var isValid = false;
         if(request["paymentType"] == "ewallet")
         {   
-            isValid = true;
-            
+           if (request["paymentMethod"] && request["appKey"] &&
+                request["transactionId"] && request["amount"])
+            {
+                isValid = true;
+            }
+ 
         }
         else if(request["paymentType"] == "card" && request["creditCard"])
         {
-            isValid = true;
+            if (request["paymentMethod"] && request["appKey"] &&
+                request["transactionId"] && request["amount"])
+            {
+                isValid = true;
+            }
         }
         else
         {

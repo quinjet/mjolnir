@@ -17,6 +17,10 @@ var subscriptionServlet = require('../servlets/subscriptionServlet');
 var paywithServlet = require('../servlets/paywith');
 var paymentServlet = require('../servlets/paymentServlet');
 var configuration, paypalExpress, creditCardCheckout;
+var confirmPaymentServlet = require('../servlets/confirmPaymentServlet');
+var transactionServlet = require('../servlets/transactionServlet');
+var configuration, paypalExpress, transaction;
+
 app.use(function(req, res, next) {
     try {
         var data='';
@@ -37,17 +41,6 @@ exports.start = function(port) {
     /*
         connect to mongoDb via mongoose
     */
-   /* mongoConnector.connect(
-        mongoUserConfig, 
-        function (err, connection) {
-            //Setting connection in dbAccessor.
-            var wallDbAccessor = require("../models/wallDbAccess.js"),
-                signupDb = new wallDbAccessor();
-            signupDb.setConnection(connection);
-            //Setting up collections models
-            init();
-        }
-    );*/
     mongoConnector.connect(mongoUserConfig, function (err, connection) {
         logger.info("connected");
         var AsgardDbAccess = require("../models/asGuardDbAccess"),
@@ -59,7 +52,8 @@ exports.start = function(port) {
             paypalExpress = new PaypalExpress();
             var CreditCardCheckout = require("../modules/CreditCardCheckout");
             creditCardCheckout = new CreditCardCheckout();
-
+            var Transaction = require("../models/transactions");
+            transaction = new Transaction();
         init();
     })
     /*
@@ -75,8 +69,16 @@ exports.start = function(port) {
             paywithServlet.get(logger, configuration)
         );
         app.post(
-            '/onboardingService/payment',
-            paymentServlet.post(logger, configuration, paypalExpress, creditCardCheckout)
+            '/transactionService/payment',
+            paymentServlet.post(logger, configuration, transaction, paypalExpress)
+        );
+        app.post(
+            '/transactionService/confirmPayment',
+            confirmPaymentServlet.post(logger, configuration, transaction, paypalExpress)
+        );
+        app.get(
+            '/transactionService/transactions',
+            transactionServlet.get(logger, transaction)
         );
         logger.log("info", "onboardingService has started on port: %s", port); 
         app.listen(port);

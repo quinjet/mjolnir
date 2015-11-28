@@ -1,0 +1,6 @@
+<select id="service_select">
+    <option value="">Select Service</option>
+    <% for(var i = 0; i < options.length; i++) { %>
+        <option id="<%= options[i].id %>" <% if (options[i].id == selected_service) { %> selected <% } %>><%= options[i].name %></option>
+    <% } %>
+</select>

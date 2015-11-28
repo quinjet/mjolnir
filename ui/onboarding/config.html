@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>QuinJet | Configuration</title>
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <meta name="description" content="Project for hackathon">
+
+    <link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/font.css" type="text/css" />
+    <link rel="stylesheet" href="css/app.css" type="text/css" />
+    <link rel="stylesheet" href="css/main.css" type="text/css" />
+
+    <script src="scripts/jquery-2.1.4.min.js"></script>
+    <script src="scripts/data.js"></script>
+    <script src="scripts/plug-in.js"></script>
+</head>
+
+<body>
+    <header class="navbar navbar-default bg-dark lter" style="">
+        <a class="navbar-brand" href="#"><img src="images/logo.png" class="m-r-sm">
+            <span style="color:white">Configuration | QuinJet - HeroesVsHackers</span>
+        </a>
+    </header>
+    <section id="playground">
+        <div id="wrapper">
+            <div id="lead-wrapper">
+
+                <section class="panel panel-default">
+                    <header class="panel-heading font-bold">Place your seeds</header>
+                    <div class="panel-body">
+                        <form role="form">
+                            <div class="form-group">
+                                <label>Secret Key</label>
+                                <input id="userSecretKey" type="text" class="form-control" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label>Public Key</label>
+                                <input id="userPublicKey" type="text" class="form-control" disabled>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <section class="panel panel-default">
+                    <header class="panel-heading font-bold">Store Details</header>
+                    <div class="panel-body">
+                        <form role="form">
+                            <div class="form-group">
+                                <label>Store URL</label>
+                                <input id="userStoreUrl" type="url" class="form-control" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label>Platform</label>
+                                <input id="userPlatform" type="text" class="form-control" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label>Currency</label>
+                                <input id="userCurrency" type="text" class="form-control" disabled>
+                            </div>
+
+                            <center>
+                                <button id="showDashboard" type="submit"
+                                        class="btn btn-s-lg btn-dark">Show Dashboard
+                                </button>
+                            </center>
+                        </form>
+                    </div>
+                </section>
+            </div>
+
+            <footer id="footer">
+                <div class="text-center padder">
+                    <p>
+                        <a href="#">
+                            <small>Team QuinJet | #HeroesVsHackers</small>
+                        </a>
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </section>
+</body>
+</html>

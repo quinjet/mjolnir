@@ -1,0 +1,55 @@
+CACHE MANIFEST
+
+#version 3.0 10-30-2014
+
+CACHE:
+
+#images
+http://reliance.sokrati.com/signup/images/congrats.png
+http://reliance.sokrati.com/signup/images/sokrati_footer_WHITE.png
+
+#style sheets
+http://reliance.sokrati.com/signup/stylesheets/app.v1.css
+http://reliance.sokrati.com/signup/stylesheets/customisedStyle.css
+http://reliance.sokrati.com/signup/stylesheets/font.css
+http://reliance.sokrati.com/signup/stylesheets/inputValidator.css
+http://reliance.sokrati.com/signup/stylesheets/typeaheadNew.css
+
+#javascript files
+http://reliance.sokrati.com/signup/js/main.js
+http://reliance.sokrati.com/signup/js/app/views/app.js
+http://reliance.sokrati.com/signup/js/lib/jquery.js
+http://reliance.sokrati.com/signup/js/app/views/agencyDomainLevelView.js
+http://reliance.sokrati.com/signup/js/app/models/agencyDomainMappingModel.js
+http://reliance.sokrati.com/signup/js/app/views/clientDetailsView.js
+http://reliance.sokrati.com/signup/js/app/views/validation.js
+http://reliance.sokrati.com/signup/js/app/views/footer.js
+http://reliance.sokrati.com/signup/js/app/views/serviceTags.js
+http://reliance.sokrati.com/signup/js/app/views/industry.js
+http://reliance.sokrati.com/signup/js/app/views/service.js
+http://reliance.sokrati.com/signup/js/app/models/hadesGetUser.js
+http://reliance.sokrati.com/signup/js/app/models/authCheck.js
+http://reliance.sokrati.com/signup/js/lib/underscore.js
+http://reliance.sokrati.com/signup/js/lib/url-min.js
+http://reliance.sokrati.com/signup/js/lib/inputValidator.js
+http://reliance.sokrati.com/signup/js/lib/bootstrap.js
+http://reliance.sokrati.com/signup/js/lib/typeahead.jquery.js
+http://reliance.sokrati.com/signup/js/lib/bloodhound.js
+http://reliance.sokrati.com/signup/js/lib/jquery.blockUI.min.js
+http://reliance.sokrati.com/signup/js/lib/requirejs-text/text.js
+http://reliance.sokrati.com/signup/js/app/views/clientdetails.js
+http://reliance.sokrati.com/signup/js/app/models/configDbClient.js
+http://reliance.sokrati.com/signup/js/app/models/clientsdetails.js
+http://reliance.sokrati.com/signup/js/app/views/serviceTag.js
+http://reliance.sokrati.com/signup/js/app/models/service.js
+http://reliance.sokrati.com/signup/js/app/models/industry.js
+http://reliance.sokrati.com/signup/js/app/models/serviceTag.js
+http://reliance.sokrati.com/signup/js/lib/backbone.js
+http://reliance.sokrati.com/signup/js/lib/loading-ui.js
+http://reliance.sokrati.com/signup/js/app/models/clientConfiguration.js
+http://reliance.sokrati.com/signup/js/app/plugin_constants.js
+http://reliance.sokrati.com/signup/js/app/verify.js
+http://reliance.sokrati.com/signup/js/lib/require.js
+
+NETWORK:
+*

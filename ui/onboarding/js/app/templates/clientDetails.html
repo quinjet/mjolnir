@@ -1,0 +1,51 @@
+<div id="clientDetailsWrapper" class="form-horizontal">
+    <div class="make-space">
+        <span id="image-span"></span>
+        <input id="businessName" type="text" placeholder="Business Name" class="form-control input-lg controls" data-input-group="reg-from" required placeholder="Enter your business name" data-form-group="reg-from" data-req-message="Business Name is required" data-secondary-check="alphaNumeric" value="<%= business_name %>">
+    </div>
+    <div class="clear-both"></div>
+    <div class="make-space">
+        <input id="contactName" type="text" placeholder="Contact Name" class="form-control input-lg controls" data-input-group="reg-from" data-form-group="reg-from" data-req-message="Contact Name is required" data-secondary-check="alphaNumeric" placeholder="Enter your contact name" value="<%= contact_name %>"></input>
+    </div>
+    <div class="clear-both"></div>
+    <div class="make-space">
+        <input id="contactNumber" type="text" placeholder="Contact Number" class="form-control input-lg controls" data-input-group="reg-from" placeholder="Enter your contact number" data-form-group="reg-from" data-req-message="Contact Number is required" data-secondary-check="telephone" value="<%= contact_number %>">
+    </div>
+    <div class="clear-both"></div>
+    <div class="make-space">
+        <textarea id="address" placeholder="Address" class="form-control input-lg controls" data-input-group="reg-from" placeholder="Enter your address" value="<%= address %>" data-form-group="reg-from" data-req-message="Business Address is required"><%= address %></textarea>
+    </div>
+    <div class="clear-both"></div>
+    <div class="make-space">
+        <div class="clear-both"></div>
+        <input id="businessCity" type="text" class="form-control input-lg controls typeahead" value="<%= business_city %>" placeholder="City">
+        </input>
+    </div>
+    <div class="clear-both"></div>
+    <div class="make-space">
+        <input type="email" placeholder="Email Address" class="form-control input-lg controls" data-input-group="reg-from" required id="emailAddress" data-form-group="reg-from" data-req-message="Email Required" data-secondary-check="singleEmail" placeholder="Email" value="<%= email_address %>">
+    </div>
+    <div class="clear-both"></div>
+    <div class="make-space">
+        <input id="website" class="form-control input-lg controls" data-input-group="reg-from" data-secondary-check="url" placeholder="Website" value="<%= website %>">
+        </input>
+    </div>
+    <div class="clear-both"></div>
+    <div class="controlElements hide">
+        <label class="labelsControl" for="businessState">State
+            <span class='red-txt'>*</span>
+        </label>
+        <input id="businessState" class="controls form-control" disabled="disabled" value="<%= business_state %>" placeholder="State">
+        </input>
+    </div>
+    <div class="clear-both"></div>
+    <div class="controlElements hide">
+        <label class="labelsControl" for="businessCountry">Country
+            <span class='red-txt'>*</span>
+        </label>
+        <input id="businessCountry" class="controls form-control" disabled="disabled" value="<%= business_country %>" placeholder="Country">
+        </input>
+    </div>
+    <div class="line line-dashed"></div>
+    <a href="#" id="launchButton" class="btn btn-primary btn-block btn-lg">Sign up</a>
+</div>
