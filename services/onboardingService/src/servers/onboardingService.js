@@ -15,6 +15,7 @@ var express = require('express'),
 var mongoUserConfig = "/etc/sokrati/db/asgard.cfg";
 var subscriptionServlet = require('../servlets/subscriptionServlet');
 var paywithServlet = require('../servlets/paywith');
+var paymentServlet = require('../servlets/paymentServlet');
 var configuration ;
 app.use(function(req, res, next) {
     try {
@@ -67,7 +68,11 @@ exports.start = function(port) {
         app.get(
             '/onboardingService/payWith',
             paywithServlet.get(logger, configuration)
-        )
+        );
+        app.post(
+            '/onboardingService/payment',
+            paymentServlet.post(logger, configuration)
+        );
         logger.log("info", "onboardingService has started on port: %s", port); 
         app.listen(port);
         /*
