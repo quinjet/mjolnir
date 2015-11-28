@@ -1,0 +1,347 @@
+
+<script type="javascript" src="scripts/jquery-2.1.4.min.js">
+
+</script>
+<script type="javascript">
+    /**
+     * Created by vivek.patel on 28/11/15.
+     */
+
+    console.log("here");
+    console.log($);
+    var bankList =
+            [
+                "Allahabad Bank",
+                "Andhra Bank",
+                "Axis Bank",
+                "Bank of Bahrain and Kuwait",
+                "Bank of Baroda - Corporate Banking",
+                "Bank of Baroda - Retail Banking",
+                "Bank of India",
+                "Bank of Maharashtra",
+                "Canara Bank",
+                "Central Bank of India",
+                "City Union Bank",
+                "Corporation Bank",
+                "Deutsche Bank",
+                "Development Credit Bank",
+                "Dhanlaxmi Bank",
+                "Federal Bank",
+                "HDFC Bank",
+                "ICICI Bank",
+                "IDBI Bank",
+                "Indian Bank",
+                "Indian Overseas Bank",
+                "IndusInd Bank",
+                "ING Vysya Bank",
+                "Jammu and Kashmir Bank",
+                "Karnataka Bank Ltd",
+                "Karur Vysya Bank",
+                "Kotak Bank",
+                "Laxmi Vilas Bank",
+                "Oriental Bank of Commerce",
+                "Punjab National Bank - Corporate Banking",
+                "Punjab National Bank - Retail Banking",
+                "Punjab & Sind Bank",
+                "Shamrao Vitthal Co-operative Bank",
+                "South Indian Bank",
+                "State Bank of Bikaner & Jaipur",
+                "State Bank of Hyderabad",
+                "State Bank of India",
+                "State Bank of Mysore",
+                "State Bank of Patiala",
+                "State Bank of Travancore",
+                "Syndicate Bank",
+                "Tamilnad Mercantile Bank Ltd.",
+                "UCO Bank",
+                "Union Bank of India",
+                "United Bank of India",
+                "Vijaya Bank",
+                "Yes Bank Ltd"
+            ];
+
+    function showCardOptions(s) {
+        var year = new Date().getFullYear();
+        if($('#expiryYear').size() === 1){
+            for(var i = year ; i <= year + 25 ; i++)
+            {
+                $('#expiryYear').append($('<option>', {
+                    value: i,
+                    text : i
+                }));
+            }
+        }
+
+        switch(s){
+            case "CREDIT":
+                $("#selectedCard").text("Credit Card Details");
+                break;
+
+            case "DEBIT":
+                $("#selectedCard").text("Debit Card Details");
+                break;
+        }
+    }
+
+    function showBankingOption() {
+        if($('#bankList').size() === 1) {
+            $.each(bankList, function (i, item) {
+                $('#bankList').append($('<option>', {
+                    value: item,
+                    text: item
+                }));
+            });
+        }
+    }
+    function showWalletOptions() {
+        var stubForWallet = [
+            {
+                merchant: "PAYTM",
+                url: "http://paytm.com"
+            },
+            {
+                merchant: "AMAZON",
+                url: "http://amazon.com"
+            }
+        ]
+
+        $.each(stubForWallet, function (i, info) {
+            console.log(info);
+            $('#merchantList').append($('<option>', {
+                value: info.url,
+                text : info.merchant
+            }));
+        });
+
+        $("#walletOk").click(function() {
+            var selectedMerchantUrl = $("#merchantList").val();
+            console.log(selectedMerchantUrl);
+            if(selectedMerchantUrl){
+                window.location.href = selectedMerchantUrl;
+            }
+        });
+    }
+
+    /*$(document).ready(function() {
+     $('#eWallet').click(function() {
+     $(".model-button").removeClass("btn-dark");
+     $(".model-button").addClass("btn-info");
+     $("#eWallet").removeClass("btn-info");
+     $("#eWallet").addClass("btn-dark");
+     showWalletOptions();
+     });
+
+     $('#creditCard').click(function() {
+     $(".model-button").removeClass("btn-dark");
+     $(".model-button").addClass("btn-info");
+     $("#creditCard").removeClass("btn-info");
+     $("#creditCard").addClass("btn-dark");
+     showCardOptions("CREDIT");
+     });
+
+     $('#debitCard').click(function() {
+     $(".model-button").removeClass("btn-dark");
+     $(".model-button").addClass("btn-info");
+     $("#debitCard").removeClass("btn-info");
+     $("#debitCard").addClass("btn-dark");
+     showCardOptions("DEBIT");
+     });
+
+     $('#banking').click(function() {
+     $(".model-button").removeClass("btn-dark");
+     $(".model-button").addClass("btn-info");
+     $("#banking").removeClass("btn-info");
+     $("#banking").addClass("btn-dark");
+     showBankingOption();
+     });
+     });*/
+
+    $('#eWallet').click(function() {
+        $(".model-button").removeClass("btn-dark");
+        $(".model-button").addClass("btn-info");
+        $("#eWallet").removeClass("btn-info");
+        $("#eWallet").addClass("btn-dark");
+        showWalletOptions();
+    });
+
+    $('#creditCard').click(function() {
+        $(".model-button").removeClass("btn-dark");
+        $(".model-button").addClass("btn-info");
+        $("#creditCard").removeClass("btn-info");
+        $("#creditCard").addClass("btn-dark");
+        showCardOptions("CREDIT");
+    });
+
+    $('#debitCard').click(function() {
+        $(".model-button").removeClass("btn-dark");
+        $(".model-button").addClass("btn-info");
+        $("#debitCard").removeClass("btn-info");
+        $("#debitCard").addClass("btn-dark");
+        showCardOptions("DEBIT");
+    });
+
+    $('#banking').click(function() {
+        $(".model-button").removeClass("btn-dark");
+        $(".model-button").addClass("btn-info");
+        $("#banking").removeClass("btn-info");
+        $("#banking").addClass("btn-dark");
+        showBankingOption();
+    });
+</script>
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header" style="background-color: #41586e;">
+      <header class="navbar navbar-default bg-dark lter text-center" style="border: 0px;">
+        <a class="navbar-brand" href="#"><img src="images/logo.png" class="m-r-sm">
+          <span style="color:white">QuinJet - HeroesVsHackers</span>
+        </a>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </header>
+    </div>
+    <div class="btn-group btn-group-justified">
+        <a id="eWallet" class="btn btn-info model-button"><i class="fa fa-unlock"></i>  eWallet</a>
+        <a id="creditCard" class="btn btn-info model-button"><i class="fa fa-money"></i>  Credit Card</a>
+        <a id="debitCard" class="btn btn-info model-button"><i class="fa fa-credit-card"></i>  Debit
+          Card</a>
+        <a id="banking" class="btn btn-info model-button"><i class="fa fa-users"></i>  Internet Banking</a>
+    </div>
+    <div class="modal-footer">
+        <div class="col-lg-12 app-button hidden" id="bankingHtml">
+            <section class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <select id="bankList" class="col-lg-12 form-control m-b">
+                            <option value="" disabled selected hidden>Select Bank</option>
+                        </select>
+                    </div>
+
+                    <center>
+                        <label>You will be redirected to Bank's website once you press proceed.</label>
+                        <div class="doc-buttons">
+                            <a href="#" class="btn btn-s-md btn-success btn-rounded">Proceed</a>
+                            <a href="#" class="btn btn-s-md btn-danger btn-rounded" data-dismiss="modal">Cancel</a>
+                        </div>
+                    </center>
+                </div>
+            </section>
+        </div>
+
+        <div class="col-lg-12 app-button" id="cardsDetailsHtml">
+            <section class="panel panel-default">
+                <div class="panel-body">
+                    <h4 id="selectedCard" style="text-align: center;"></h4>
+                    <hr/>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Card Type</label>
+                        <div class="col-sm-8">
+                            <label><input type="radio" name="ccard-type" value="1" checked="checked" id="credit-card">
+                                <img width="100" height="28" src="image/visa-master_card.jpg">
+                            </label>
+                            <label><input type="radio" name="ccard-type" value="2" id="amex-cards">
+                                <img width="50" height="28" class="card" src="image/pay-american.jpg">
+                            </label>
+                            <label><input type="radio" name="ccard-type" value="3" id="diners">
+                                <img width="50" height="28" class="card" src="image/pay-diners.jpg">
+                            </label>
+                        </div>
+                        <label class="col-sm-4 control-label">Card Number</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" maxlength="25">
+                        </div>
+
+                        <label class="col-sm-4 control-label">Name on the Card</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control">
+                        </div>
+
+                        <label class="col-sm-4 control-label">CVV Number</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="col-lg-6 form-control" maxlength="3">
+                        </div>
+
+                        <label class="col-sm-4 control-label">Expiry Details</label>
+                        <div class="col-sm-4">
+                            <select name="expiryMonth" class="form-control m-b">
+                                <option value="" disabled selected hidden>Month</option>
+                                <option value="01">Jan (1)</option>
+                                <option value="02">Feb (2)</option>
+                                <option value="03">Mar (3)</option>
+                                <option value="04">Apr (4)</option>
+                                <option value="05">May (5)</option>
+                                <option value="06">Jun (6)</option>
+                                <option value="07">Jul (7)</option>
+                                <option value="08">Aug (8)</option>
+                                <option value="09">Sep (9)</option>
+                                <option value="10">Oct (10)</option>
+                                <option value="11">Nov (11)</option>
+                                <option value="12">Dec (12)</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <select id="expiryYear" class="form-control m-b">
+                                <option value="" disabled selected hidden>Year</option>
+                            </select>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox">
+                                    Save card number and expiry for next transaction.
+                                    <img width="14px" src="image/lock1.gif"> Learn more
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <center>
+                        <div class="col-sm-12">
+                            <div class="doc-buttons">
+                                <a href="#" class="btn btn-s-md btn-success btn-rounded">OK</a>
+                                <a href="#" class="btn btn-s-md btn-danger btn-rounded" data-dismiss="modal">Cancel</a>
+                            </div>
+                        </div>
+                    </center>
+                </div>
+            </section>
+        </div>
+
+        <div class="col-lg-12 app-button hidden" id="walletHtml">
+            <section class="panel panel-default">
+                <section class="col-lg-12 panel panel-default">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <select id="merchantList" class="col-lg-12 form-control m-b">
+                                <option value="" disabled selected hidden>Select Wallet</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+                <section class="col-lg-12 panel panel-default">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Username</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" maxlength="25">
+                            </div>
+
+                            <label class="col-sm-2 control-label">Password</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control">
+                            </div>
+                        </div>
+                        &nbsp;
+                        <center>
+                            <div class="col-lg-12">
+                                <div class="doc-buttons">
+                                    <a id="walletOk" class="btn btn-s-md btn-success btn-rounded">OK</a>
+                                    <a id="walletCancel" class="btn btn-s-md btn-danger btn-rounded" data-dismiss="modal">Cancel</a>
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                </section>
+            </section>
+        </div>
+    </div>
+  </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
