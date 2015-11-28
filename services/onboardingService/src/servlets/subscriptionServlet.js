@@ -32,13 +32,66 @@ var subscription = function(logger, configuration) {
                         if (err == null && !isEmpty(returnObject)) {
                             logger.info("asd" + returnObject);
                             logger.info("merchant account already exists. updating paymentOptions: " + body.paymentOptions);
-                            var paymentOptions = {"paymentOptions" : body.paymentOptions};
+
+                            var existingPaymentOptions =
+                                returnObject[0].paymentOptions;
+                            logger.info("existing payment options: " + existingPaymentOptions);
+                            var done = [];
+                            for (var i = 0 ; i < body.paymentOptions.length ; i++){
+                                for (var j = 0 ; j < existingPaymentOptions.length; j++){
+                                    if (body.paymentOptions[i].name == existingPaymentOptions[j].name) {
+                                        existingPaymentOptions[j].isActive = body.paymentOptions[i].isActive
+                                        done.push(body.paymentOptions[i].name);
+                                    }
+                                    else {
+                                        break;
+                                    }
+                                }
+                            }
+                            for (var i = 0 ; i < body.paymentOptions.length ; i++) {
+                                if (done.indexOf(body.paymentOptions[i].name) == -1) {
+                                    existingPaymentOptions.push(body.paymentOptions[i])
+                                }
+                            }
+                            var paymentOptions = {"paymentOptions" : existingPaymentOptions};
                             configuration.updateToDb(
                                 selectionobject,
-                                body.paymentOptions,
+                                paymentOptions,
                                 function(err, updateResponse) {
+                                    logger.info("inside update callback");
                                     logger.log("err: " + err);
                                     logger.log("updateResponse: " + updateResponse);
+                                    if (err == null) {
+                                        configuration.getFromDb(
+                                            selectionobject,
+                                            function(err, updatedDoc) {
+                                                if (!err) {
+                                                    res.send(
+                                                        {
+                                                            "status": "success",
+                                                            "merchant": updatedDoc[0]
+                                                        }
+                                                    );
+                                                }
+                                                else {
+                                                    res.send(
+                                                        {
+                                                            "status": "failed",
+                                                            "merchant": updatedDoc
+                                                        },
+                                                        500
+                                                    );
+                                                }
+                                        })
+                                    }
+                                    else {
+                                        res.send(
+                                            {
+                                                "status": "Failed",
+                                                "merchant": err.message
+                                            }
+                                        );
+                                    }
                                 })
                         }
                         else {

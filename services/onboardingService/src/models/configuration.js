@@ -13,6 +13,11 @@ function Configuration() {
                     required: true,
                     trim: true
                 },
+                "type" : {
+                    type: String,
+                    required: true,
+                    trim: true
+                },
                 "isActive": {
                     type: Boolean,
                     required: true,
@@ -36,7 +41,7 @@ function Configuration() {
         },
         "domainName": {
             type: String,
-            required: false,
+            required: true,
             trim: true
         },
         "phone": {
@@ -57,6 +62,11 @@ function Configuration() {
         "salt": {
             type: String,
             required: false,
+            trim: true
+        },
+        "currency" : {
+            type: String,
+            required: true,
             trim: true
         },
         "paymentOptions": [paymentOption],
