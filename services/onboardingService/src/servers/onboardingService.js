@@ -7,12 +7,12 @@ var express = require('express'),
     errorHandling = require('../lib/middleware/errorHandling'),
     log = require('../lib/middleware/fileLogger'),
     MongoConnector = require("../modules/mongoConnector.js"),
-    mongoConnector = new MongoConnector(),
+    mongoConnector = new MongoConnector(logger),
 
     bodyParser = require('body-parser');
     //logger.add(logger.transports.File, { filename: 'quinjet.log', level: 'info',handleExceptions: true, maxsize: 5242880,maxFiles: 10});
 /*Require all servlets */
-
+var mongoUserConfig = "/etc/sokrati/db/asgard.cfg";
 var subscriptionServlet = require('../servlets/subscriptionServlet');
 app.use(function(req, res, next) {
     try {
@@ -45,10 +45,13 @@ exports.start = function(port) {
             init();
         }
     );*/
+    mongoConnector.connect(mongoUserConfig, function (err, connection) {
+        logger.info("connected");
+        init();
+    })
     /*
         initializing signup servlet
     */
-    init();
     function init() {
         app.post(
             '/onboardingService/subscribe', 
