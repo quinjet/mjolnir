@@ -8,14 +8,14 @@ var mongoose = require('mongoose'),
 */
 function MongoConnector(logger) {
     function connect(config, callback) {
+        console.log("reading =" + config);
         fs.readFile(config, function (err, data) { 
             var mongoConfig = JSON.parse(data);
             var url = mongoConfig["url"];
             var database = mongoConfig["database"];
             var userName = mongoConfig["user"];
             var password = mongoConfig["pass"];
-            var uristring = "mongodb://"+ userName + ":" + password + 
-                            "@" + url + "/" + database;
+            var uristring = "mongodb://" + url + "/" + database;
             var opts = mongoConfig["opts"];
             logger.log(uristring);
             logger.log(JSON.stringify(opts));

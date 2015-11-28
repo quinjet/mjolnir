@@ -1,13 +1,19 @@
-var asGuardDbAccessor = require("./asGuard.js"),
+var asGuardDbAccessor = require("./asGuardDbAccess.js"),
     util = require('util');
+    logger = require('winston');
 
 function Configuration() {
+    logger.info("initing configutation");
     var COLLECTION_NAME = "configurations";
-
     var paymentOption =
         new asGuardDbAccessor.prototype.connection.Schema(
             {
                 "name": {
+                    type: String,
+                    required: true,
+                    trim: true
+                },
+                "type" : {
                     type: String,
                     required: true,
                     trim: true
@@ -33,9 +39,9 @@ function Configuration() {
             required: true,
             trim: true
         },
-        "domain": {
+        "domainName": {
             type: String,
-            required: false,
+            required: true,
             trim: true
         },
         "phone": {
@@ -56,6 +62,11 @@ function Configuration() {
         "salt": {
             type: String,
             required: false,
+            trim: true
+        },
+        "currency" : {
+            type: String,
+            required: true,
             trim: true
         },
         "paymentOptions": [paymentOption],
@@ -128,7 +139,7 @@ function Configuration() {
                 callback(err.message, null);
             }
             else {
-                util.log("[INFO] getFromDb successful");
+                util.log("[INFO] getFromDb successful: " + JSON.stringify(doc));
                 callback(null, doc);
             }
         });
