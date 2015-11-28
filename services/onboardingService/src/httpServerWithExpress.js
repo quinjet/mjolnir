@@ -34,5 +34,5 @@ if (cluster.isMaster) {
   // Workers can share any TCP connection
   // In this case its a HTTP server
   var serverFactory = require('./lib/serverFactory.js');
-  serverFactory.createServer('onboardingService',9099);
+  serverFactory.createServer('onboardingService',9093);
 }
