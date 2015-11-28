@@ -30,7 +30,7 @@ var paymentServlet = function(logger, configuration, transaction, paypalExpress)
                     {
                         "status": "FAILED",
                         "merchant": "Invalid request"
-                    }
+                    }, 500
                 );
             }
             else
@@ -66,7 +66,7 @@ var paymentServlet = function(logger, configuration, transaction, paypalExpress)
                                                         {
                                                             "status": "FAILED",
                                                             "error": err
-                                                        }
+                                                        }, 500
                                                     );   
                                                 }
                                                 else
@@ -83,7 +83,7 @@ var paymentServlet = function(logger, configuration, transaction, paypalExpress)
                                                                     {
                                                                         "status": "FAILED",
                                                                         "error": err
-                                                                    }
+                                                                    }, 500
                                                                 );
                                                             }
                                                             else
@@ -97,7 +97,6 @@ var paymentServlet = function(logger, configuration, transaction, paypalExpress)
                                                             }
                                                         });   
                                                 }
-                                            
                                         });
                                     } 
                                     else {
@@ -108,7 +107,6 @@ var paymentServlet = function(logger, configuration, transaction, paypalExpress)
                                             }, 500
                                         );
                                     }
-
                                 } 
                                 else 
                                 {
@@ -116,10 +114,9 @@ var paymentServlet = function(logger, configuration, transaction, paypalExpress)
                                         {
                                             "status": "FAILED",
                                             "error": err
-                                        }
+                                        }, 500
                                     );
                                 }
-                                
                             } 
                             else
                             {
@@ -127,9 +124,8 @@ var paymentServlet = function(logger, configuration, transaction, paypalExpress)
                                     {
                                         "status": "FAILED",
                                         "error": err
-                                    }
+                                    }, 500
                                 );
-
                             }
                             
                         }
@@ -139,7 +135,7 @@ var paymentServlet = function(logger, configuration, transaction, paypalExpress)
                                 {
                                     "status": "FAILED",
                                     "error": err
-                                }
+                                }, 500
                             );
                         }
                     }
@@ -154,7 +150,7 @@ var paymentServlet = function(logger, configuration, transaction, paypalExpress)
                 {
                     "status": "FAILED",
                     "error": err.message
-                }
+                }, 500
             );
         }
     }
@@ -203,7 +199,7 @@ var paymentServlet = function(logger, configuration, transaction, paypalExpress)
         logger.info("In getContextForPayment: ");
         logger.info("In request : " + JSON.stringify(request));
         logger.info("In request : " + JSON.stringify(paymentOptions));
-        for (var i =0 ; i<paymentOptions.length;i++)
+        for (var i =0 ; i<paymentOptions.length; i++)
         {
             if(request["paymentMethod"] == paymentOptions[i]["name"])
             {
