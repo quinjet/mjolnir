@@ -19,7 +19,6 @@ var paymentServlet = function(logger, configuration, transaction, paypalExpress)
                body["origin"] = req.headers.origin;
             }
 
-            // Change
             body["origin"] = "http://www.sokrati.com/";
 
             logger.info("checking request valid or not: " + JSON.stringify(selectionobject));
@@ -29,7 +28,7 @@ var paymentServlet = function(logger, configuration, transaction, paypalExpress)
                 res.send(
                     {
                         "status": "FAILED",
-                        "merchant": "Invalid request"
+                        "merchant": "Invalid Request"
                     }
                 );
             }
@@ -54,51 +53,74 @@ var paymentServlet = function(logger, configuration, transaction, paypalExpress)
                                     logger.info("paymentDetail for merchant: " + JSON.stringify(paymentDetail));
                                     if(paymentDetail["name"] == "paypal")
                                     {
-                                        body["currency"] = dbResponse[0].currency;
                                         var context = JSON.parse(paymentDetail["context"]);
-                                        paypalExpress.payExpress(
-                                            body, 
-                                            context, 
-                                            function(err, resp){
+                                        
+                                        var filter = {};
+                                        filter["paymentToken"] = body["paymentToken"];
+                                        filter["appKey"] = body["appKey"];
+                                        
+                                        transaction.getFromDb(filter, function(err, txnResponse)
+                                            {
                                                 if(err)
                                                 {
-                                                     res.send(
+                                                    res.send(
                                                         {
                                                             "status": "FAILED",
                                                             "error": err
                                                         }
-                                                    );   
+                                                    );
                                                 }
                                                 else
                                                 {
-                                                    body["paymentStatus"] = "INPROGRESS";
-                                                    body["paymentToken"] = resp;
-
-                                                    transaction.saveToDb(
+                                                    paypalExpress.confirmPayment(
                                                         body, 
-                                                        function(err, txnResponse){
-                                                            if (err)
+                                                        context, 
+                                                        function(err, resp){
+                                                            console.log("sasd: " + resp);
+                                                            if(err)
                                                             {
                                                                 res.send(
                                                                     {
                                                                         "status": "FAILED",
                                                                         "error": err
                                                                     }
-                                                                );
+                                                                );   
                                                             }
                                                             else
                                                             {
-                                                                res.send(
-                                                                    {
-                                                                        "status": "SUCCESS",
-                                                                        "token": resp
-                                                                    }
-                                                                );
+                                                                var respStr = JSON.stringify(resp);
+                                                                var updateObj = {
+                                                                                    paymentStatus: resp["PAYMENTSTATUS"],
+                                                                                    transactionDetails: respStr
+                                                                                };
+                                                                transaction.updateToDb(
+                                                                        filter,
+                                                                        updateObj,
+                                                                        function(err, doc){
+                                                                            if(err)
+                                                                            {
+                                                                                res.send(
+                                                                                    {
+                                                                                        "status": "FAILED",
+                                                                                        "error": err
+                                                                                    }
+                                                                                );
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                res.send(
+                                                                                    {
+                                                                                        "status": "SUCCESS",
+                                                                                        "message": resp
+                                                                                    }
+                                                                                ); 
+                                                                            }
+                                                                        });  
                                                             }
-                                                        });   
+                                                        
+                                                    });
                                                 }
-                                            
-                                        });
+                                            });
                                     } 
                                     else {
                                          res.send(
@@ -184,8 +206,8 @@ var paymentServlet = function(logger, configuration, transaction, paypalExpress)
         var isValid = false;
         if(request["paymentType"] == "ewallet")
         {
-            if (request["paymentMethod"] && request["appKey"] &&
-                request["transactionId"] && request["amount"])
+            if(request["paymentToken"] && request["payerId"] &&
+               request["appKey"] && request["paymentMethod"])
             {
                 isValid = true;
             }

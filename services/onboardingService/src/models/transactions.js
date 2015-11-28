@@ -1,33 +1,15 @@
-var asGuardDbAccessor = require("./asGuard.js"),
+var asGuardDbAccessor = require("./asGuardDbAccess.js"),
     util = require('util');
 
 function Transaction() {
     var COLLECTION_NAME = "transactions";
-
-    var paymentOption =
-        new asGuardDbAccessor.prototype.connection.Schema(
-            {
-                "transactionId": {
-                    type: String,
-                    required: true,
-                    trim: true
-                },
-                "amount": {
-                    type: Boolean,
-                    required: true,
-                    trim: true
-                },
-                "paymentStatus": {
-                    type: String,
-                    required: true,
-                    trim: true
-                },
-                "_id": false
-            }
-        );
-
     
     var transactionSchema = {
+        "appKey": {
+            type: String,
+            required: true,
+            trim: true
+        },
         "transactionId": {
             type: String,
             required: true,
@@ -38,29 +20,39 @@ function Transaction() {
             required: true,
             trim: true
         },
+        "paymentType": {
+            type: String,
+            required: true,
+            trim: true
+        },
+        "paymentMethod": {
+            type: String,
+            required: true,
+            trim: true
+        },
         "paymentStatus": {
             type: String,
             required: true,
             trim: true
         },
-        "transactionType": {
+        "paymentToken": {
             type: String,
-            required: true,
+            required: false,
             trim: true
         },
         "transactionDetails": {
             type: String,
-            required: true,
+            required: false,
             trim: true
-        },
-        "_id": false
-    }
+        }
+    };
 
     var TransactionModel = asGuardDbAccessor.prototype.connection.model(
                                  COLLECTION_NAME, transactionSchema
-                             );
+                           );
 
     this.saveToDb = function (request, callBack) {
+        console.log(JSON.stringify(request));
         var keys = Object.keys(request);
         var doc = {};
 
@@ -130,5 +122,5 @@ function Transaction() {
     }
     this.TransactionModel = TransactionModel;
 }
-util.inherits(Configuration, asGuardDbAccessor);
-module.exports = Configuration;
+util.inherits(Transaction, asGuardDbAccessor);
+module.exports = Transaction;
