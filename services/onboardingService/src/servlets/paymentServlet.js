@@ -1,6 +1,6 @@
 var hat = require("hat");
 var fs = require('fs');
-var paymentServlet = function(logger, configuration) {
+var paymentServlet = function(logger, configuration, paypalExpress) {
     var request, decodedBody;
     return function (req, res, next) {
         try {
@@ -16,10 +16,11 @@ var paymentServlet = function(logger, configuration) {
                 selectionobject["appKey"] = body.appKey;
             }
             if (req.headers.origin) {
-               // add valid domain check
+               body["origin"] = req.headers.origin;
             }
+            body["origin"] = "http://www.sokrati.com/";
 
-            logger.info("checking request valid or not: " + JSON.stringify(body));
+            logger.info("checking request valid or not: " + JSON.stringify(selectionobject));
             isValid  = validateRequest(body);
             if(!isValid)
             {
@@ -34,12 +35,81 @@ var paymentServlet = function(logger, configuration) {
             {
                 configuration.getFromDb(
                     selectionobject,
-                    function (err, returnObject) {
-                        if (err == null && !isEmpty(returnObject)) {
-                            logger.info("asd" + returnObject);
+                    function (err, dbResponse) {
+                        if (err == null && !isEmpty(dbResponse)) {
                             logger.info("merchant account validated.");
-                            var paymentOptions = {"paymentOptions" : returnObject};
-                            )
+                            logger.info("response from db :" + JSON.stringify(dbResponse));
+                            if(dbResponse[0])
+                            {
+                                var paymentDetail = 
+                                    getContextForPayment(
+                                        body, 
+                                        dbResponse[0].paymentOptions
+                                    );
+                                
+                                if(paymentDetail)
+                                {
+                                    logger.info("paymentDetail for merchant: " + JSON.stringify(paymentDetail));
+                                    if(paymentDetail["name"] == "paypal")
+                                    {
+                                        var context = JSON.parse(paymentDetail["context"]);
+                                        paypalExpress.payExpress(
+                                            body, 
+                                            context, 
+                                            function(err, resp){
+                                                if(err)
+                                                {
+                                                     res.send(
+                                                        {
+                                                            "status": "ERROR",
+                                                            "error": err
+                                                        }
+                                                    );   
+                                                }
+                                                else
+                                                {
+                                                    res.send(
+                                                        {
+                                                            "status": "SUCCESS",
+                                                            "token": resp
+                                                        }
+                                                    );   
+                                                }
+                                            
+                                        });
+                                    } 
+                                    else {
+                                         res.send(
+                                            {
+                                                "status": "ERROR",
+                                                "error": "Invalid Payment option"
+                                            }, 500
+                                        );
+                                    }
+
+                                } 
+                                else 
+                                {
+                                    res.send(
+                                        {
+                                            "status": "FAILED",
+                                            "error": err
+                                        }
+                                    );
+                                }
+                                
+                            } 
+                            else
+                            {
+                                res.send(
+                                    {
+                                        "status": "FAILED",
+                                        "error": err
+                                    }
+                                );
+
+                            }
+                            
                         }
                         else 
                         {
@@ -102,6 +172,24 @@ var paymentServlet = function(logger, configuration) {
             isValid = false;
         }
         return isValid;
+    }
+
+    function getContextForPayment(request, paymentOptions)
+    {
+        var paymentDetail;
+        logger.info("In getContextForPayment: ");
+        logger.info("In request : " + JSON.stringify(request));
+        logger.info("In request : " + JSON.stringify(paymentOptions));
+        for (var i =0 ; i<paymentOptions.length;i++)
+        {
+            if(request["paymentMethod"] == paymentOptions[i]["name"])
+            {
+                logger.info("We found Match!! Lets Begin Transaction for " + paymentOptions[i]);
+                paymentDetail = paymentOptions[i];
+                break;
+            }
+        }
+        return paymentDetail;
     }
 }
 exports.post = paymentServlet;
