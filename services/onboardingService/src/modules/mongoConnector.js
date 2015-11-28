@@ -15,8 +15,7 @@ function MongoConnector(logger) {
             var database = mongoConfig["database"];
             var userName = mongoConfig["user"];
             var password = mongoConfig["pass"];
-            var uristring = "mongodb://"+ userName + ":" + password + 
-                            "@" + url + "/" + database;
+            var uristring = "mongodb://" + url + "/" + database;
             var opts = mongoConfig["opts"];
             logger.log(uristring);
             logger.log(JSON.stringify(opts));
