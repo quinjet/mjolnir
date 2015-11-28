@@ -134,15 +134,15 @@ exports.start = function(port) {
             paywithServlet.get(logger, configuration)
         );
         app.post(
-            '/onboardingService/payment',
+            '/transactionService/payment',
             paymentServlet.post(logger, configuration, transaction, paypalExpress, creditCardCheckout)
         );
         app.post(
-            '/onboardingService/confirmPayment',
+            '/transactionService/confirmPayment',
             confirmPaymentServlet.post(logger, configuration, transaction, paypalExpress)
         );
         app.get(
-            '/onboardingService/transactions',
+            '/transactionService/transactions',
             transactionServlet.get(logger, transaction)
         );
 
