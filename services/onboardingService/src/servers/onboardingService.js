@@ -14,6 +14,8 @@ var express = require('express'),
 /*Require all servlets */
 var mongoUserConfig = "/etc/sokrati/db/asgard.cfg";
 var subscriptionServlet = require('../servlets/subscriptionServlet');
+var paywithServlet = require('../servlets/paywith');
+var configuration ;
 app.use(function(req, res, next) {
     try {
         var data='';
@@ -47,6 +49,11 @@ exports.start = function(port) {
     );*/
     mongoConnector.connect(mongoUserConfig, function (err, connection) {
         logger.info("connected");
+        var AsgardDbAccess = require("../models/asGuardDbAccess"),
+            asgardDbAccess = new AsgardDbAccess();
+            asgardDbAccess.setConnection(connection);
+            var Configuration = require("../models/configuration");
+            configuration = new Configuration();
         init();
     })
     /*
@@ -55,8 +62,12 @@ exports.start = function(port) {
     function init() {
         app.post(
             '/onboardingService/subscribe', 
-            subscriptionServlet.post(logger)
+            subscriptionServlet.post(logger, configuration)
         );
+        app.get(
+            '/onboardingService/payWith',
+            paywithServlet.get(logger, configuration)
+        )
         logger.log("info", "onboardingService has started on port: %s", port); 
         app.listen(port);
         /*
