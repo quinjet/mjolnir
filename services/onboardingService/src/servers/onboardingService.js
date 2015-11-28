@@ -16,7 +16,7 @@ var mongoUserConfig = "/etc/sokrati/db/asgard.cfg";
 var subscriptionServlet = require('../servlets/subscriptionServlet');
 var paywithServlet = require('../servlets/paywith');
 var paymentServlet = require('../servlets/paymentServlet');
-var configuration, paypalExpress;
+var configuration, paypalExpress, creditCardCheckout;
 app.use(function(req, res, next) {
     try {
         var data='';
@@ -57,6 +57,8 @@ exports.start = function(port) {
             configuration = new Configuration();
             var PaypalExpress = require("../modules/paypalExpressCheckout");
             paypalExpress = new PaypalExpress();
+            var CreditCardCheckout = require("../modules/CreditCardCheckout");
+            creditCardCheckout = new CreditCardCheckout();
 
         init();
     })
@@ -74,7 +76,7 @@ exports.start = function(port) {
         );
         app.post(
             '/onboardingService/payment',
-            paymentServlet.post(logger, configuration, paypalExpress)
+            paymentServlet.post(logger, configuration, paypalExpress, creditCardCheckout)
         );
         logger.log("info", "onboardingService has started on port: %s", port); 
         app.listen(port);
