@@ -23,7 +23,7 @@ var configuration, paypalExpress, transaction, oauthServiceCommunicator;
 
 function getThemeAndReplace(themeId, accessToken, shopDomain) {
     console.log("themeid :: ", themeId, accessToken)
-    serviceCommunicator.get(
+    oauthServiceCommunicator.get(
         shopDomain, '/admin/themes/' + themeId + '/assets.json?asset[key]=layout/theme.liquid&theme_id=' + themeId,
         {'Content-Type': 'application/json', 'X-Shopify-Access-Token': accessToken},
         function(err, trackingResObj) {
@@ -73,7 +73,7 @@ function getThemeAndReplace(themeId, accessToken, shopDomain) {
 
 function getAllShopThemes(accessToken, shopDomain, callback) {
     console.log("3333 " + accessToken, shopDomain)
-    serviceCommunicator.get(
+    oauthServiceCommunicator.get(
         shopDomain, '/admin/themes.json', 
         {'Content-Type': 'application/json', 'X-Shopify-Access-Token': accessToken},
         function(err, response) {
@@ -205,7 +205,7 @@ exports.start = function(port) {
             console.log(req.body);
             console.log(body);
         });
-
+        app.listen(port);
 
         logger.log("info", "onboardingService has started on port: %s", port); 
         /*
