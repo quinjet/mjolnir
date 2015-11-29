@@ -23,53 +23,64 @@ var merchantServlet = require('../servlets/merchantDetail');
 var configuration, paypalExpress, transaction, oauthServiceCommunicator;
 
 function getThemeAndReplace(themeId, accessToken, shopDomain) {
-    console.log("themeid :: ", themeId, accessToken)
-    oauthServiceCommunicator.get(
-        shopDomain, '/admin/themes/' + themeId + '/assets.json?asset[key]=layout/theme.liquid&theme_id=' + themeId,
-        {'Content-Type': 'application/json', 'X-Shopify-Access-Token': accessToken},
-        function(err, trackingResObj) {
-            console.log(" CURRENT THEME = ", trackingResObj);
-            var code = trackingResObj.asset.value;
-            code = code.replace('</head>', '\n\n\n' + 
-                                '<script type="text/javascript">$(document).on("submit", ".cart-form", function(e){ e.preventDefault(e); });$(document).click("click", "button[name^=\'checkout\']", function(evt) {evt.stopPropagation();$("#ajaxifyModal").removeClass("is-visible");alert("You are integrated.")});</script></head>');
-            
+    var filter = {};
+    filter.domainName = shopDomain;
+    configuration.getFromDb(filter, function(err, configResp){
+        if(err)
+        {
+            console.log("Error occured while fetching appKey");
+        }
+        else
+        {
+            console.log("themeid :: ", themeId, accessToken)
+            oauthServiceCommunicator.get(
+                shopDomain, '/admin/themes/' + themeId + '/assets.json?asset[key]=layout/theme.liquid&theme_id=' + themeId,
+                {'Content-Type': 'application/json', 'X-Shopify-Access-Token': accessToken},
+                function(err, trackingResObj) {
+                    console.log(" CURRENT THEME = ", trackingResObj);
+                    var code = trackingResObj.asset.value;
+                    code = code.replace('</head>', '\n\n\n' + 
+                                        '<script type="text/javascript"> var _quinJetAppKey = ' + configResp["appKey"] + ';$(document).on("submit", ".cart-form", function(e){ e.preventDefault(e); });$(document).click("click", "button[name^=\'checkout\']", function(evt) {evt.stopPropagation();$("#ajaxifyModal").removeClass("is-visible");alert("You are integrated.")});</script></head>');
+                    
 
-            var url = 'https://' + shopDomain + '/admin/themes/' + themeId + '/assets.json';
+                    var url = 'https://' + shopDomain + '/admin/themes/' + themeId + '/assets.json';
 
 
-            var data = {
-                'asset': {
-                    'key': 'layout/theme.liquid',
-                    'value': code
-                }
-            }
-
-            var reqObj = {
-                url: url,
-                method: 'PUT',
-                body: data,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Shopify-Access-Token': accessToken
-                },
-                json: true
-            };
-
-            console.info(reqObj);
-            request(
-                reqObj, function (err, resp, body) {
-                    console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-                    console.log(err, resp, body);
-                    if (err) {
-                        //return cb(err);
+                    var data = {
+                        'asset': {
+                            'key': 'layout/theme.liquid',
+                            'value': code
+                        }
                     }
-                    //cb(null, body);
+
+                    var reqObj = {
+                        url: url,
+                        method: 'PUT',
+                        body: data,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Shopify-Access-Token': accessToken
+                        },
+                        json: true
+                    };
+
+                    console.info(reqObj);
+                    request(
+                        reqObj, function (err, resp, body) {
+                            console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+                            console.log(err, resp, body);
+                            if (err) {
+                                //return cb(err);
+                            }
+                            //cb(null, body);
+                        }
+                    );
+
+
                 }
             );
-
-
         }
-    );
+    });
 }
 
 function getAllShopThemes(accessToken, shopDomain, callback) {
