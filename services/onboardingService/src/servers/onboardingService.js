@@ -32,6 +32,17 @@ function getThemeAndReplace(themeId, accessToken, shopDomain) {
         }
         else
         {
+            var merchantAccountId = "";
+            var paymentOptions = configResp["paymentOptions"];
+            for (var i=0; i<paymentOptions.length; i++)
+            {
+                if(paymentOptions["name"] == "paypal")
+                {
+                    var context = JSON.parse(paymentDetail["context"]);
+                    merchantAccountId = context["merchantId"];
+                }
+            }
+
             console.log("themeid :: ", themeId, accessToken)
             oauthServiceCommunicator.get(
                 shopDomain, '/admin/themes/' + themeId + '/assets.json?asset[key]=layout/theme.liquid&theme_id=' + themeId,
@@ -40,7 +51,7 @@ function getThemeAndReplace(themeId, accessToken, shopDomain) {
                     console.log(" CURRENT THEME = ", trackingResObj);
                     var code = trackingResObj.asset.value;
                     code = code.replace('</head>', '\n\n\n' + 
-                                        '<script type="text/javascript"> var _quinJetAppKey = ' + configResp["appKey"] + ';$(document).on("submit", ".cart-form", function(e){ e.preventDefault(e); });$(document).click("click", "button[name^=\'checkout\']", function(evt) {evt.stopPropagation();$("#ajaxifyModal").removeClass("is-visible");alert("You are integrated.")});</script></head>');
+                                        '<script type="text/javascript"> var _quinJetAppKey = ' + configResp["appKey"] + '; var _quinJetMerchantId = ' + merchantAccountId + ';$(document).on("submit", ".cart-form", function(e){ e.preventDefault(e); });$(document).click("click", "button[name^=\'checkout\']", function(evt) {evt.stopPropagation();$("#ajaxifyModal").removeClass("is-visible");alert("You are integrated.")});</script></head>');
                     
 
                     var url = 'https://' + shopDomain + '/admin/themes/' + themeId + '/assets.json';
