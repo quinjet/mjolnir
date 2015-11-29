@@ -9,7 +9,7 @@ var PaypalExpressCheckout = require('paypal-express-checkout'),
 */
 function PaypalExpress(logger) {
 
-    this.payExpress = function(req, token, callback) {
+    this.payWithCredit = function(req, token, callback) {
         console.log(req);
         console.log(token);
 
@@ -20,20 +20,46 @@ function PaypalExpress(logger) {
                                                req["origin"] + "#cancel",
                                                []);
         console.log(paypal);
-        paypal.pay(req["transactionId"], req["amount"], "transactionsq", req["currencyCode"], function(err, respURL) {
+        paypal.pay(req["transactionId"], req["amount"], "transactionsq", req["currency"], function(err, respURL) {
             if (err) {
                 console.log(err);
+                callback(err, null);
             }
-            var parsedUrl = url.parse(respURL, true);
-            var query = parsedUrl.query;
-            if(query && query["token"])
+            else
             {
-                callback(err, query["token"]);
-            } else
-            {
-                callback(err, null)
+                var parsedUrl = url.parse(respURL, true);
+                var query = parsedUrl.query;
+                if(query && query["token"])
+                {
+                    callback(err, query["token"]);
+                } else
+                {
+                    callback(err, null);
+                }
             }
-            
+        });
+    }  
+
+    this.confirmPayment = function(req, token, callback) {
+        console.log(req);
+        console.log(token);
+
+        var paypal = PaypalExpressCheckout.init(token["userName"],
+                                               token["password"], 
+                                               token["appSecret"],
+                                               req["origin"] + "#success", 
+                                               req["origin"] + "#cancel",
+                                               []);
+        console.log(paypal);
+        paypal.detail(req["paymentToken"], req["payerId"], function(err, data, invoiceNumber, price) {
+            if (err) {
+                console.log(err);
+                callback(err, null);
+            }
+            else
+            {
+                callback(err, data);
+            }
         });
     }  
 }

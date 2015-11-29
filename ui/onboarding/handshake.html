@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>QuinJet | Welcome</title>
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <meta name="description" content="Project for hackathon">
+
+    <link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/font.css" type="text/css" />
+    <link rel="stylesheet" href="css/app.css" type="text/css" />
+    <link rel="stylesheet" href="css/main.css" type="text/css" />
+
+    <script src="scripts/jquery-2.1.4.min.js"></script>
+    <script src="scripts/data.js"></script>
+    <script src="scripts/handshake.js"></script>
+</head>
+
+<body>
+    <header class="navbar navbar-default bg-dark lter" style="">
+        <a class="navbar-brand" href="#"><img src="images/logo.png" class="m-r-sm">
+            <span style="color:white">Welcome | QuinJet - HeroesVsHackers</span>
+        </a>
+    </header>
+    <section id="playground">
+        <div id="wrapper">
+            <div id="lead-wrapper">
+                <section class="panel panel-default">
+                    <header class="panel-heading font-bold">Connect to Store</header>
+                    <div class="panel-body">
+                        <form role="form">
+                            <div class="form-group">
+                                <label>Store URL</label>
+                                <input id="storeUrl" type="url" class="form-control" placeholder="Enter store url">
+                            </div>
+                            <div class="form-group">
+                                <label>Store Platform</label>
+                                <select id="storePlatform" class="form-control m-b">
+                                    <option value="" disabled selected hidden>Select store platform</option>
+                                    <option value="">Shopify</option>
+                                    <option value="">Magento</option>
+                                    <option value="">BigCommerce</option>
+                                    <option value="">Others</option>
+                                </select>
+                            </div>
+                            <div class="text-info" id="selectedShopInfo" style="margin-top: 10px;margin-bottom: 10px;">
+
+                            </div>
+                            <center>
+                                <a id="storeAuthButton" type="submit"
+                                   class="btn btn-s-lg btn-dark">Verify
+                                </a>
+                            </center>
+                        </form>
+                    </div>
+                </section>
+
+                <section class="panel panel-default">
+                    <header class="panel-heading font-bold">Select Primary Store Details</header>
+                    <div class="panel-body hidden">
+                        <form role="form">
+                            <div class="form-group">
+                                <label>Store Platform</label>
+                                <select id="storeCurrency" class="form-control m-b">
+                                    <option value="" disabled selected hidden>Select currency</option>
+                                </select>
+                            </div>
+
+
+                            <center>
+                                <a id="storeSaveButton" type="submit"
+                                   class="btn btn-s-lg btn-dark" href='merchant.html'>Save
+                                </a>
+                            </center>
+                        </form>
+                    </div>
+                </section>
+            </div>
+
+            <footer id="footer">
+                <div class="text-center padder">
+                    <p>
+                        <a href="#">
+                            <small>Team QuinJet | #HeroesVsHackers</small>
+                        </a>
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </section>
+</body>
+</html>

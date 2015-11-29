@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>QuinJet | Dashboard</title>
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <meta name="description" content="Project for hackathon">
+
+    <link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/font.css" type="text/css" />
+    <link rel="stylesheet" href="css/app.css" type="text/css" />
+    <link rel="stylesheet" href="css/main.css" type="text/css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="js/datatables/datatables.css" type="text/css"/>
+
+    <script src="scripts/jquery-2.1.4.min.js"></script>
+    <script src="scripts/data.js"></script>
+    <script src="scripts/plug-in.js"></script>
+    <script src="scripts/dashboard.js"></script>
+
+<body>
+    <header class="navbar navbar-default bg-dark lter" style="">
+        <a class="navbar-brand" href="#"><img src="images/logo.png" class="m-r-sm">
+            <span style="color:white">Dashboard | QuinJet - HeroesVsHackers</span>
+        </a>
+    </header>
+    <section id="playground">
+        <div id="wrapper">
+            <div id="lead-wrapper">
+
+                <section class="panel panel-default">
+                    <header class="panel-heading font-bold">Overview</header>
+                    <div class="panel-body">
+                        <form role="form">
+                            <div class="col-sm-4 col-md-4 padder-v b-r b-b b-light metric lt" id="IMPRESSIONS">
+                                <span class="fa-stack fa-2x pull-left m-r-sm">
+                                    <i class="fa fa-circle fa-stack-2x text-success"></i>
+                                    <i class="fa fa-credit-card fa-stack-1x text-white"></i>
+                                </span>
+                                <a class="clear" href="javascript:void(0);">
+                                    <span id="cc_transactions" class="h3 block m-t-xs"><strong>0</strong></span>
+                                    <small class="text-muted text-uc">Transactions using Credit Card</small>
+                                </a>
+                            </div>
+                            <div class="col-sm-4 col-md-4 padder-v b-r b-b b-light metric lt" id="CLICKS">
+                                <span class="fa-stack fa-2x pull-left m-r-sm">
+                                    <i class="fa fa-circle fa-stack-2x text-warning"></i>
+                                    <i class="fa fa-credit-card fa-stack-1x text-white"></i>
+                                    <span class="easypiechart pos-abt" data-percent="100" data-line-width="4" data-track-color="#fff" data-scale-color="false" data-size="50" data-line-cap="butt" data-animate="2000" data-target="#bugs" data-update="3000"></span>
+                                </span>
+                                <a class="clear" href="javascript:void(0);">
+                                    <span id="dc_transactions" class="h3 block m-t-xs"><strong id="bugs">0</strong></span>
+                                    <small class="text-muted text-uc">Transactions using Debit Card</small>
+                                </a>
+                            </div>
+                            <div class="col-sm-4 col-md-4 padder-v b-r b-b b-light metric lt" id="LEADS">
+                                <span class="fa-stack fa-2x pull-left m-r-sm">
+                                    <i class="fa fa-circle fa-stack-2x text-info"></i>
+                                    <i class="fa fa-paypal fa-stack-1x text-white"></i>
+                                    <span class="easypiechart pos-abt" data-percent="100" data-line-width="4" data-track-color="#f5f5f5" data-scale-color="false" data-size="50" data-line-cap="butt" data-animate="3000" data-target="#firers" data-update="5000"></span>
+                                </span>
+                                <a class="clear" href="javascript:void(0);">
+                                    <span id="paypal_transactions" class="h3 block m-t-xs"><strong id="firers">0</strong></span>
+                                    <small class="text-muted text-uc">Transactions using Paypal</small>
+                                </a>
+                            </div>
+                            <div class="col-sm-4 col-md-4 padder-v b-r b-b b-light metric lt" id="IMPRESSIONS">
+                                <span class="fa-stack fa-2x pull-left m-r-sm">
+                                    <i class="fa fa-circle fa-stack-2x text-success"></i>
+                                    <i class="fa fa-thumbs-up fa-stack-1x text-white"></i>
+                                </span>
+                                <a class="clear" href="javascript:void(0);">
+                                    <span id="completed_transactions" class="h3 block m-t-xs"><strong>0</strong></span>
+                                    <small class="text-muted text-uc">Completed: Total Transactions</small>
+                                </a>
+                            </div>
+                            <div class="col-sm-4 col-md-4 padder-v b-r b-b b-light metric lt" id="CLICKS">
+                                <span class="fa-stack fa-2x pull-left m-r-sm">
+                                    <i class="fa fa-circle fa-stack-2x text-danger"></i>
+                                    <i class="fa fa-remove fa-stack-1x text-white"></i>
+                                    <span class="easypiechart pos-abt" data-percent="100" data-line-width="4" data-track-color="#fff" data-scale-color="false" data-size="50" data-line-cap="butt" data-animate="2000" data-target="#bugs" data-update="3000"></span>
+                                </span>
+                                <a class="clear" href="javascript:void(0);">
+                                    <span id="failed_transactions" class="h3 block m-t-xs"><strong id="bugs">0</strong></span>
+                                    <small class="text-muted text-uc">Failed: Total Transactions</small>
+                                </a>
+                            </div>
+                            <div class="col-sm-4 col-md-4 padder-v b-r b-b b-light metric lt" id="LEADS">
+                                <span class="fa-stack fa-2x pull-left m-r-sm">
+                                    <i class="fa fa-circle fa-stack-2x text-info"></i>
+                                    <i class="fa fa-money fa-stack-1x text-white"></i>
+                                    <span class="easypiechart pos-abt" data-percent="100" data-line-width="4" data-track-color="#f5f5f5" data-scale-color="false" data-size="50" data-line-cap="butt" data-animate="3000" data-target="#firers" data-update="5000"></span>
+                                </span>
+                                <a class="clear" href="javascript:void(0);">
+                                    <span id="amount_transactions" class="h3 block m-t-xs"><strong id="firers">0</strong></span>
+                                    <small class="text-muted text-uc">Total Transacted Amount(USD)</small>
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <section class="panel panel-default">
+                <header class="panel-heading">
+                  Transactions 
+                  <i class="fa fa-info-sign text-muted" data-toggle="tooltip" data-placement="bottom" data-title="ajax to load the data."></i> 
+                </header>
+                <div class="table-responsive">
+                  <table class="table table-striped m-b-none" id="transaction_table">
+                    <thead>
+                      <tr>
+                        <th width="20%">Date</th>
+                        <th width="20%">Transaction No.</th>
+                        <th width="15%">Provider</th>
+                        <th width="20%">Payment Mode</th>
+                        <th width="15%">Amount (USD)</th>
+                        <th width="20%">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+            </div>
+
+            <footer id="footer">
+                <div class="text-center padder">
+                    <p>
+                        <a href="#">
+                            <small>Team QuinJet | #HeroesVsHackers</small>
+                        </a>
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </section>
+
+    <script src="js/datatables/jquery.dataTables.min.js"></script>
+<!-- <script src="js/datatables/demo.js"></script> -->
+<!-- <script src="js/app.plugin.js"></script> -->
+</body>
+</html>

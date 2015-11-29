@@ -65,6 +65,11 @@ function Configuration() {
             required: false,
             trim: true
         },
+        "currency": {
+            type: String,
+            required: true,
+            trim: true
+        },
         "appKey": {
             type: String,
             required: false,

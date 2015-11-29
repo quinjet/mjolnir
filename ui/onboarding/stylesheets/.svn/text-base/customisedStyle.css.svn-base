@@ -1,0 +1,78 @@
+#headerContainer {
+    background-color: rgb(243, 243, 243);
+    margin-top: -30px;
+    width: 403px;
+    margin-left: -30px;
+    padding-bottom: 10px;
+}
+#service-tag-input {
+    margin-top: 32px;
+    margin-bottom: 8px;
+}
+#businessNameLabel {
+    margin-left: -15px;
+    margin-bottom: 0px;
+    margin-top: 4px;
+}
+#launchButton {
+    padding: 6px 16px !important;
+}
+.business-city, .business-city-type {
+    font-size: large;
+}
+.container-fluid {
+    background-color: #2e3e4e;
+}
+.header {
+    text-align: center;
+    margin-left: -13px;
+    margin-right: -14px;
+    min-height: 55px;
+    margin-top: 41px;
+}
+#footerContainer {
+    margin-left: -15px;
+    margin-right: -15px;
+    padding-bottom: 1px;
+}
+/*.formErrorTemp {
+    top: 352px !important;
+    left: 665px !important;
+}*/
+#image-tag-correct {
+    margin-top: 10px;
+    margin-bottom: -77px;
+    float: right;
+    margin-right: 3px;
+}
+#image-tag-id {
+    margin-top: 11px;
+    margin-bottom: -30px;
+    margin-left: 92%;
+    float: left;
+}
+#clientDetailsWrapper {
+    margin-top: 11px;
+}
+#service-tag-container {
+    margin-top: -30px;
+}
+.make-space {
+    margin-bottom: 19px;
+}
+#vertical-separator {
+    border: 1px solid  !important;
+}
+.icon-image {
+    width: 7%;
+}
+#external-link-ppt {
+    margin-left: 22%
+}
+#external-link-video {
+    margin-left: 34%;
+    margin-bottom: 4%;
+}
+#image-modal {
+    width: 100%;
+}
