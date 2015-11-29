@@ -29,7 +29,7 @@ $(document).ready(function() {
     var PayStatusEnum = {"Completed":"Completed", "Failed":"Failed"}
     var PayTypesEnum = {"ewallet":"ewallet", "card":"card"}
 
-    var url = "http://127.0.0.1:9093/transactionService/transactions";
+    var url = "/transactionService/transactions";
     var appKey = sessionStorage.getItem("appKey");
     var jsonData = $.ajax({
                         url: url,

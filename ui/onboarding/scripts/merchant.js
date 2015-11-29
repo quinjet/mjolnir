@@ -20,49 +20,12 @@ function ajaxCall(type, url, data, callback) {
 };
 
 $(document).ready(function() {
-    $('#connectPaypal').click(function() {
-        var success = false;
-        if(sessionStorage.getItem("appKey")) {
-            success = true;
-        }
-        if(success){
-            var userName = null;
-            var passwd = null;
-            var apiKey = null;
-            var currencyUpdateRequest = {
-                "appKey" : sessionStorage.getItem("appKey"),
-                "paymentOptions": [
-                    {
-                        "name": "Paypal",
-                        "isActive": "true",
-                        "type": "wallet",
-                        "context": {
-                            "userName": userName,
-                            "password": passwd,
-                            "apiKey": apiKey
-                        }
-                    }
-                ]
-            }
-
-            ajaxCall("POST", "/onboardingService/subscribe", JSON.stringify(currencyUpdateRequest),
-                function(res, err){
-                    console.log(JSON.stringify(res));
-                    if(err){
-
-                    }
-                    else {
-                        sessionStorage.setItem("appKey", res.merchant.appKey);
-                        sessionStorage.setItem("storeUrl", res.merchant.domainName);
-                        sessionStorage.setItem("appSecret", res.merchant.appSecret);
-                        $("#reconnectPaypal").removeClass("fa btn btn-danger fa-chain");
-                        $("#reconnectPaypal").addClass("fa btn btn-success fa-chain");
-                        $("#doneButton").removeClass("disabled");
-                    }
-                }
-            );
-        }
-    });
+    if(sessionStorage.getItem("paypal") === "true") {
+        $("#reconnectPaypal").removeClass("fa btn btn-danger fa-chain");
+        $("#reconnectPaypal").addClass("fa btn btn-success fa-chain");
+        $("#doneButton").removeClass("disabled");
+        $("#connectPaypal").html("Connected ");
+    }
 
     $('#connectAmazon').click(function() {
         var success = false;
@@ -102,6 +65,7 @@ $(document).ready(function() {
                         $("#reconnectAmazon").removeClass("fa btn btn-danger fa-chain");
                         $("#reconnectAmazon").addClass("fa btn btn-success fa-chain");
                         $("#doneButton").removeClass("disabled");
+                        $("#connectPaypal").html("Connected ");
                     }
                 }
             );

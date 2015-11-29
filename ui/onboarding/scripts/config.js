@@ -41,14 +41,9 @@ $(document).ready(function() {
 
                 $("#userSecretKey").val(res.merchant.appSecret);
                 $("#userStoreUrl").val(res.merchant.domainName);
+                $("#userWebhook").val(res.merchant.webhookUrl);
                 $("#userCurrency").val(currency[res.merchant.currency]);
-
-                var platformsStr = [];
-                var index = 0;
-                for(platform in res.merchant.platforms) {
-                    platformsStr[index++] = platform.name;
-                }
-                $("#userPlatform").val(platformsStr.join(" , "));
+                $("#userPlatform").val(res.merchant.platforms[0].name);
                 $("#doneButton").removeClass("disabled");
             }
         }
