@@ -16,8 +16,8 @@ function PaypalExpress(logger) {
         var paypal = PaypalExpressCheckout.init(token["userName"],
                                                token["password"], 
                                                token["appSecret"],
-                                               req["origin"] + "#success", 
-                                               req["origin"] + "#cancel",
+                                               req["callbackUrl"] + "#success", 
+                                               req["callbackUrl"] + "#cancel",
                                                []);
         console.log(paypal);
         paypal.pay(req["transactionId"], req["amount"], "transactionsq", req["currency"], function(err, respURL) {
@@ -47,8 +47,8 @@ function PaypalExpress(logger) {
         var paypal = PaypalExpressCheckout.init(token["userName"],
                                                token["password"], 
                                                token["appSecret"],
-                                               req["origin"] + "#success", 
-                                               req["origin"] + "#cancel",
+                                               req["callbackUrl"] + "#success", 
+                                               req["callbackUrl"] + "#cancel",
                                                []);
         console.log(paypal);
         paypal.detail(req["paymentToken"], req["payerId"], function(err, data, invoiceNumber, price) {

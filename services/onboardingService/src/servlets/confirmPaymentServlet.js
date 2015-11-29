@@ -16,10 +16,10 @@ var paymentServlet = function(logger, configuration, transaction, paypalExpress)
                 selectionobject["appKey"] = body.appKey;
             }
             if (req.headers.origin) {
-               body["origin"] = req.headers.origin;
+               body["origin"] = req.headers.origin + "/";
             }
 
-            body["origin"] = "http://www.sokrati.com/";
+            // body["origin"] = "http://www.sokrati.com/";
 
             logger.info("checking request valid or not: " + JSON.stringify(selectionobject));
             isValid  = validateRequest(body);
@@ -89,6 +89,10 @@ var paymentServlet = function(logger, configuration, transaction, paypalExpress)
                                                             else
                                                             {
                                                                 var respStr = JSON.stringify(resp);
+                                                                if(!resp["PAYMENTSTATUS"])
+                                                                {
+                                                                    resp["PAYMENTSTATUS"] = "Failed";
+                                                                }
                                                                 var updateObj = {
                                                                                     paymentStatus: resp["PAYMENTSTATUS"],
                                                                                     transactionDetails: respStr

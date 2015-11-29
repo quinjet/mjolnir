@@ -1,5 +1,5 @@
 var hat = require("hat");
-var ursa = require('ursa');
+// var ursa = require('ursa');
 var fs = require('fs');
 
 var subscription = function(logger, configuration) {
@@ -180,19 +180,19 @@ var subscription = function(logger, configuration) {
         return !Object.keys(object).length;
     }
 
-    function generateKeyPairs() {
-        var keys = ursa.generatePrivateKey(512, 3);
-        logger.info('keys:', keys);
-        var privPem = keys.toPrivatePem('base64');
-        logger.info('privPem:', privPem);
-        var priv = ursa.createPrivateKey(privPem, '', 'base64');
-        logger.info("priv: " + JSON.stringify(priv));
-        var pubPem = keys.toPublicPem('base64');
-        logger.info('pubPem:', pubPem);
-        var pub = ursa.createPublicKey(pubPem, 'base64');
-        logger.info("pub: " + JSON.stringify(pub));
-        return {"privateKey":privPem, "publicKey":pubPem};
-    }
+    // function generateKeyPairs() {
+    //     var keys = ursa.generatePrivateKey(512, 3);
+    //     logger.info('keys:', keys);
+    //     var privPem = keys.toPrivatePem('base64');
+    //     logger.info('privPem:', privPem);
+    //     var priv = ursa.createPrivateKey(privPem, '', 'base64');
+    //     logger.info("priv: " + JSON.stringify(priv));
+    //     var pubPem = keys.toPublicPem('base64');
+    //     logger.info('pubPem:', pubPem);
+    //     var pub = ursa.createPublicKey(pubPem, 'base64');
+    //     logger.info("pub: " + JSON.stringify(pub));
+    //     return {"privateKey":privPem, "publicKey":pubPem};
+    // }
 
     function generateRacks() {
         var rack = hat.rack();

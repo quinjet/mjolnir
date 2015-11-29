@@ -16,7 +16,7 @@ function Transaction() {
             trim: true
         },
         "amount": {
-            type: Boolean,
+            type: String,
             required: true,
             trim: true
         },
@@ -52,7 +52,6 @@ function Transaction() {
                            );
 
     this.saveToDb = function (request, callBack) {
-        console.log(JSON.stringify(request));
         var keys = Object.keys(request);
         var doc = {};
 
