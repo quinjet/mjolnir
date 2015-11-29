@@ -1,10 +1,74 @@
 <!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<html lang="en" class="bg-dark">
 
+<head>
+    <meta charset="utf-8" />
+    <title>QuinJet | Paypal</title>
+    <meta name="description" content="paypal page for hackathon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"
+            />
+    <link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="css/animate.css" type="text/css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/font.css" type="text/css" />
+    <link rel="stylesheet" href="css/app.css" type="text/css" />
+    <link rel="stylesheet" href="css/main.css" type="text/css" />
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/app.plugin.js"></script>
+
+
+    <script src="scripts/jquery-2.1.4.min.js"></script>
+    <script src="scripts/paypal.js"></script>
+
+</head>
+
+<body class="" id="playground">
+<section id="content" class="m-t-lg wrapper-md animated fadeInUp">
+    <div class="container aside-xxl">
+        <section class="panel panel-default bg-white m-t-lg">
+            <header class="panel-heading text-center">
+                <strong>Paypal Integration</strong>
+            </header>
+            <form class="panel-body wrapper-lg">
+                <div class="form-group">
+                    <label class="control-label">Username</label>
+                    <input id="inputMail" type="text" placeholder="username" class="form-control input-lg">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Merchant Account Id</label>
+                    <input id="inputMerchantId" type="text" placeholder="merchant id"
+                           class="form-control input-lg">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Password</label>
+                    <input type="password" id="inputPassword" placeholder="Password" class="form-control input-lg">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Signature</label>
+                    <input type="signature" id="inputSign" placeholder="Signature" class="form-control input-lg">
+                </div>
+                <div class="line line-dashed"></div>
+                <a class="btn btn-twitter btn-block m-b-sm" id="signInButton">
+                    <i  class="pull-left"></i>
+                    Authorize Paypal
+                </a>
+            </form>
+        </section>
+
+        <footer id="footer">
+            <div class="text-center padder">
+                <p>
+                    <a href="main.html">
+                        <small>Team QuinJet | #HeroesVsHackers</small>
+                    </a>
+                </p>
+            </div>
+        </footer>
+    </div>
+</section>
 </body>
+
 </html>

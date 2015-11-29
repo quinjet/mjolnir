@@ -13,8 +13,7 @@
     <link rel="stylesheet" href="css/main.css" type="text/css" />
 
     <script src="scripts/jquery-2.1.4.min.js"></script>
-    <script src="scripts/data.js"></script>
-    <script src="scripts/plug-in.js"></script>
+    <script src="scripts/config.js"></script>
 </head>
 
 <body>
@@ -28,16 +27,20 @@
             <div id="lead-wrapper">
 
                 <section class="panel panel-default">
-                    <header class="panel-heading font-bold">Place your seeds</header>
+                    <header class="panel-heading font-bold">Your Account Details</header>
                     <div class="panel-body">
                         <form role="form">
                             <div class="form-group">
                                 <label>Secret Key</label>
                                 <input id="userSecretKey" type="text" class="form-control" disabled>
+                                <label>It is a secret key(which should not be shared), which is used to
+                                    secure the
+                                    details of payment done by user.</label>
                             </div>
                             <div class="form-group">
-                                <label>Public Key</label>
+                                <label>App Key</label>
                                 <input id="userPublicKey" type="text" class="form-control" disabled>
+                                <label>It is a unique identification key for the merchant.</label>
                             </div>
                         </form>
                     </div>
@@ -60,10 +63,16 @@
                                 <input id="userCurrency" type="text" class="form-control" disabled>
                             </div>
 
+                            <div class="form-group">
+                                <label>Webhook URL</label>
+                                <textarea id="userWebhook" type="url" class="form-control" disabled></textarea>
+                            </div>
+
                             <center>
-                                <button id="showDashboard" type="submit"
-                                        class="btn btn-s-lg btn-dark">Show Dashboard
-                                </button>
+                                <a href="merchant.html" class="btn btn-s-lg btn-dark">Go Back</a>
+                                <a id="showDashboard" href="dashboard.html"
+                                   class="btn btn-s-lg btn-dark">Show Dashboard
+                                </a>
                             </center>
                         </form>
                     </div>

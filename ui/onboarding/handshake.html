@@ -44,12 +44,12 @@
                                     <option value="">Others</option>
                                 </select>
                             </div>
-                            <div class="text-info" id="selectedShopInfo" style="margin-top: 10px;margin-bottom: 10px;">
+                            <div class="text-dark" id="selectedShopInfo" style="margin-top: 10px;margin-bottom: 10px;">
 
                             </div>
                             <center>
                                 <a id="storeAuthButton" type="submit"
-                                   class="btn btn-s-lg btn-dark">Verify
+                                   class="btn btn-s-lg btn-dark">Next
                                 </a>
                             </center>
                         </form>
@@ -58,19 +58,28 @@
 
                 <section class="panel panel-default">
                     <header class="panel-heading font-bold">Select Primary Store Details</header>
-                    <div class="panel-body hidden">
+                    <div id="currencyForm" class="panel-body hidden">
                         <form role="form">
                             <div class="form-group">
                                 <label>Store Platform</label>
                                 <select id="storeCurrency" class="form-control m-b">
                                     <option value="" disabled selected hidden>Select currency</option>
+                                    <option value="INR">Indian Ruppee (&#8377)</option>
+                                    <option value="USD">United States dollar USD ($)</option>
+                                    <option value="EUR">Euro EUR (&#8364;)</option>
+                                    <option value="GBP">Pound GBP (&pound;)</option>
                                 </select>
                             </div>
 
+                            <div class="form-group">
+                                <label>Webhook URL</label>
+                                <textarea id="storeWebhook" type="url" class="form-control"
+                                          placeholder="Enter webhook url here"></textarea>
+                            </div>
 
                             <center>
                                 <a id="storeSaveButton" type="submit"
-                                   class="btn btn-s-lg btn-dark" href='merchant.html'>Save
+                                   class="btn btn-s-lg btn-dark">Save
                                 </a>
                             </center>
                         </form>
