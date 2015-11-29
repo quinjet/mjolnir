@@ -1,0 +1,26 @@
+LoadModule proxy_module /usr/lib/apache2/modules/mod_proxy.so
+LoadModule proxy_http_module /usr/lib/apache2/modules/mod_proxy_http.so
+<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+        DocumentRoot /usr/local/sokrati/onboarding
+        ServerName quinjet.sokrati.com
+
+        <Directory /usr/local/sokrati/onboarding>
+                #Options FollowSymLinks
+                Options Indexes FollowSymLinks Includes ExecCGI
+                AllowOverride All
+                Order deny,allow
+                Allow from all
+        </Directory>
+
+        ProxyPass /onboardingService http://127.0.0.1:9093/onboardingService
+        ProxyPassReverse /onboardingService http://127.0.0.1:9093/onboardingService
+
+        ProxyPass /transactionService http://203.199.49.168:9093/transactionService
+        ProxyPassReverse /transactionService http://203.199.49.168:9093/transactionService
+
+        #Logfiles
+        ErrorLog /home/appster/logs/quinjet.log
+        CustomLog /home/appster/logs/quinjet.log combined
+
+</VirtualHost>

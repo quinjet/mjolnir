@@ -1,0 +1,43 @@
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+
+    DocumentRoot /var/www
+
+    ProxyPass /adwordsAccessorService http://localhost:8080/adwordsAccessorService
+    ProxyPassReverse /adwordsAccessorService http://localhost:8080/adwordsAccessorService
+
+   ProxyPass /sokratiShopsService http://localhost:8080/sokratiShopsService
+   ProxyPassReverse /sokratiShopsService http://localhost:8080/sokratiShopsService
+
+    <Directory />
+        Options FollowSymLinks
+        AllowOverride None
+    </Directory>
+    <Directory /var/www/>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride None
+        Order allow,deny
+        allow from all
+    </Directory>
+</VirtualHost>
+
+# RewriteEngine On
+# RewriteCond %{HTTPS} off
+# RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}/
+
+<IfModule mod_ssl.c>
+    <VirtualHost *:443>
+        ErrorLog "/home/appster/logs/sokratiShopsWebApp.error.log"
+        CustomLog "/home/appster/logs/sokratiShopsWebApp.access.log" common
+        ServerName sandbox.sokrati.com
+
+        SSLProxyEngine on
+        ProxyPass /quinjet/ http://127.0.0.1:9093/
+        ProxyPassReverse /quinjet/ http://127.0.0.1:9093/
+
+        SSLEngine on
+        SSLCertificateFile /etc/sokrati/certs/sokrati.com.crt
+        SSLCertificateKeyFile /etc/sokrati/certs/sokrati.com.nopass.key
+        SSLCertificateChainFile /etc/sokrati/certs/gd_bundle.crt
+    </VirtualHost>
+</IfModule>
