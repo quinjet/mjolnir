@@ -32,7 +32,23 @@ function Configuration() {
             }
         );
 
-    
+    var platform =
+        new asGuardDbAccessor.prototype.connection.Schema(
+            {
+                "name": {
+                    type: String,
+                    required: true,
+                    trim: true
+                },
+                "context":{
+                    type: String,
+                    required: true,
+                    trim: true
+                },
+                "_id": false
+            }
+        );
+
     var configurationSchema = {
         "email": {
             type: String,
@@ -46,7 +62,7 @@ function Configuration() {
         },
         "phone": {
             type: String,
-            required: true,
+            required: false,
             trim: true
         },
         "appKey": {
@@ -66,10 +82,16 @@ function Configuration() {
         },
         "currency" : {
             type: String,
-            required: true,
+            required: false,
+            trim: true
+        },
+        "webhookUrl" : {
+            type: String,
+            required: false,
             trim: true
         },
         "paymentOptions": [paymentOption],
+        "platforms" : [platform]
     };
 
     var ConfigurationModel = asGuardDbAccessor.prototype.connection.model(

@@ -16,6 +16,7 @@ var mongoUserConfig = "/etc/sokrati/db/asgard.cfg";
 var subscriptionServlet = require('../servlets/subscriptionServlet');
 var paywithServlet = require('../servlets/paywith');
 var paymentServlet = require('../servlets/paymentServlet');
+var merchantServlet = require('../servlets/merchantDetail');
 var configuration, paypalExpress;
 app.use(function(req, res, next) {
     try {
@@ -38,7 +39,7 @@ exports.start = function(port) {
         connect to mongoDb via mongoose
     */
    /* mongoConnector.connect(
-        mongoUserConfig, 
+        mongoUserConfig,
         function (err, connection) {
             //Setting connection in dbAccessor.
             var wallDbAccessor = require("../models/wallDbAccess.js"),
@@ -65,12 +66,16 @@ exports.start = function(port) {
     */
     function init() {
         app.post(
-            '/onboardingService/subscribe', 
+            '/onboardingService/subscribe',
             subscriptionServlet.post(logger, configuration)
         );
         app.get(
             '/onboardingService/payWith',
             paywithServlet.get(logger, configuration)
+        );
+        app.get(
+            '/onboardingService/merchantDetail',
+            merchantServlet.get(logger, configuration)
         );
         app.post(
             '/onboardingService/payment',
