@@ -3,6 +3,8 @@ An easy way to add multiple payment options on your website!
 
 _This project was the part of 36-hour hackathon organized by Rise in partnership with Barclays._
 
+![Dashboard](screenshots/home-page.png "Dashboard")
+
 ## Problem Statement:
 
 The World of Merchants has declared a state of confusion. Merchants continue to be bombarded with different payment options for their mobile applications.
